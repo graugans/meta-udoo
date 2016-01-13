@@ -1,0 +1,12 @@
+Index: git/Makefile
+===================================================================
+--- git.orig/Makefile
++++ git/Makefile
+@@ -2,6 +2,6 @@
+ 
+ install:
+ 	install -d $(DEST_DIR)${BASE_LIB_DIR}/firmware
+-	cp -f ./${MACHINE_NAME}/* $(DEST_DIR)${BASE_LIB_DIR}/firmware
++	cp -f ./initscripts/* $(DEST_DIR)${BASE_LIB_DIR}/firmware
+ 
+ 

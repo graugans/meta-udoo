@@ -1,0 +1,2 @@
+# Environment script for the UDOO Neo board
+# save this file with unix-like newlines! (\n, 0x0A)

@@ -1,0 +1,26 @@
+diff --git a/board/udoo/neo/neo.c b/board/udoo/neo/neo.c
+index 0b3a50c..93e0c3d 100644
+--- a/board/udoo/neo/neo.c
++++ b/board/udoo/neo/neo.c
+@@ -1175,17 +1175,18 @@ int do_udooinit(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
+ 		}
+ 	}
+ 	
+-	char* dir_part = "dts";
++	char fdt_file[100];
++	sprintf(fdt_file, "%s%s%s.dtb", modelfdt, video_part, m4_part);
+ 	char* customdtb = getenv("use_custom_dtb");
+ 	if (customdtb) {
+ 		customdtb = trim(customdtb);
+ 		if (strcmp(customdtb, "true") == 0 || strcmp(customdtb, "yes") == 0 || strcmp(customdtb, "enabled") == 0) {
++			char* dir_part = "dts";
+ 			dir_part = "dts-overlay";
++			sprintf(fdt_file, "%s/%s%s%s.dtb", dir_part, modelfdt, video_part, m4_part);
+ 		}
+ 	}
+ 	
+-	char fdt_file[100];
+-	sprintf(fdt_file, "%s/%s%s%s.dtb", dir_part, modelfdt, video_part, m4_part);
+ 	
+ 	printf("Device Tree: %s\n", fdt_file);
+ 	setenv("fdt_file", fdt_file);

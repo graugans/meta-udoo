@@ -1,0 +1,28 @@
+diff --git a/board/udoo/quad_dual/udoo.c b/board/udoo/quad_dual/udoo.c
+index e395f97..ee69ca7 100644
+--- a/board/udoo/quad_dual/udoo.c
++++ b/board/udoo/quad_dual/udoo.c
+@@ -393,18 +393,17 @@ int do_udooinit(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
+ 		}
+ 	}
+ 	
+-	char* dir_part = "dts";
++	char fdt_file[100];
++	sprintf(fdt_file, "%s%s.dtb", modelfdt, video_part);
+ 	char* customdtb = getenv("use_custom_dtb");
+ 	if (customdtb) {
+ 		customdtb = trim(customdtb);
+ 		if (strcmp(customdtb, "true") == 0 || strcmp(customdtb, "yes") == 0 || strcmp(customdtb, "enabled") == 0) {
+-			dir_part = "dts-overlay";
++			char* dir_part = "dts-overlay";
++			sprintf(fdt_file, "%s/%s%s.dtb", dir_part, modelfdt, video_part);
+ 		}
+ 	}
+-	
+-	char fdt_file[100];
+-	sprintf(fdt_file, "%s/%s%s.dtb", dir_part, modelfdt, video_part);
+-	
++
+ 	printf("Device Tree: %s\n", fdt_file);
+ 	setenv("fdt_file", fdt_file);
+ 	
