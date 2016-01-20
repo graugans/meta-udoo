@@ -37,15 +37,12 @@ IMAGE_INSTALL = "\
     qtbase-fonts \
     qtbase-plugins \
     qtbase-tools \
-    qtbase-examples \
     qtdeclarative \
     qtdeclarative-plugins \
     qtdeclarative-tools \
-    qtdeclarative-examples \
     qtdeclarative-qmlplugins \
     qtmultimedia \
     qtmultimedia-plugins \
-    qtmultimedia-examples \
     qtmultimedia-qmlplugins \
     qtsvg \
     qtsvg-plugins \
@@ -53,13 +50,10 @@ IMAGE_INSTALL = "\
     qtimageformats-plugins \
     qtsystems \
     qtsystems-tools \
-    qtsystems-examples \
     qtsystems-qmlplugins \
     qtscript \
     qt3d \
-    qt3d-examples \
     qt3d-qmlplugins \
-    qt3d-tools \
     qtwebkit \
     qtwebkit-examples-examples \
     qtwebkit-qmlplugins \
