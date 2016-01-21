@@ -32,6 +32,7 @@ IMAGE_INSTALL = "\
     packagegroup-fsl-gstreamer1.0-full \
     packagegroup-fsl-tools-testapps \
     packagegroup-fsl-tools-benchmark \
+    packagegroup-fsl-tools-gpu \
     imx-vpu \
     imx-test \
     qtbase-fonts \
