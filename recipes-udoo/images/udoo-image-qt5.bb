@@ -7,34 +7,11 @@
 # DISTRO_FEATURES_remove = "x11 wayland"
 
 
-DESCRIPTION = "A Qt 5.51+ image. Tailored for the UDOO boards"
+DESCRIPTION = "A Qt 5.5.1+ image. Tailored for the UDOO boards"
 
 IMAGE_FEATURES += "splash ssh-server-openssh package-management debug-tweaks"
 
-IMAGE_INSTALL = "\
-    packagegroup-core-boot \
-    packagegroup-core-full-cmdline \
-    packagegroup-base \
-    ${CORE_IMAGE_EXTRA_INSTALL} \
-    gdbserver \
-    gstreamer \
-    gst-meta-video \
-    gst1.0-fsl-plugin \
-    gst-plugins-base-app \
-    gst-plugins-base \
-    gst-plugins-good \
-    gst-plugins-good-rtsp \
-    gst-plugins-good-udp \
-    gst-plugins-good-rtpmanager \
-    gst-plugins-good-rtp \
-    gst-plugins-good-video4linux2 \
-    openssh-sftp-server \
-    packagegroup-fsl-gstreamer1.0-full \
-    packagegroup-fsl-tools-testapps \
-    packagegroup-fsl-tools-benchmark \
-    packagegroup-fsl-tools-gpu \
-    imx-vpu \
-    imx-test \
+QT_TOOLS = " \
     qtbase-fonts \
     qtbase-plugins \
     qtbase-tools \
@@ -63,9 +40,39 @@ IMAGE_INSTALL = "\
     qtlocation-plugins \
     qtlocation-qmlplugins \
     cinematicexperience \
+    qt5-env \
+"
+
+GSTREAMER_TOOLS = " \
+    packagegroup-fsl-gstreamer1.0-full \
+"
+
+REMOTE_DEBUGGING = " \
+    gdbserver \
+    openssh-sftp-server \
+"
+
+FSL_TOOLS = " \
+    packagegroup-fsl-tools-testapps \
+    packagegroup-fsl-tools-benchmark \
+    packagegroup-fsl-tools-gpu \
+"
+
+IMAGE_INSTALL = "\
+    packagegroup-core-boot \
+    packagegroup-core-full-cmdline \
+    packagegroup-base \
+    ${CORE_IMAGE_EXTRA_INSTALL} \
+    ${QT_TOOLS} \
+    ${GSTREAMER_TOOLS} \
+    ${REMOTE_DEBUGGING} \
+    ${FSL_TOOLS} \
     cairo pango fontconfig freetype pulseaudio dbus \
     alsa-lib alsa-tools alsa-state fsl-alsa-plugins \
     i2c-tools \
     "
 
 inherit core-image
+
+# for populate_sdk to create a valid toolchain
+inherit populate_sdk_qt5
