@@ -4,14 +4,10 @@
 include linux-udooboard.inc
 require recipes-kernel/linux/linux-dtb.inc
 
-DEPENDS += "lzop-native bc-native"
+SRCREV = "feef1c3cf4a36f50d94e4b0ec4615cad4a32dfde"
 
-# UDOOboard branch - based on 3.14.28_1.0.0_ga from Freescale git
-
-SRCBRANCH = "3.14-1.0.x-udoo"
-SRCREV = "757d7c70db5b8cc6839b1d38ab799f6ad91e83ba"
-LOCALVERSION = "_1.0.0_ga-udooboard"
-
+# This hack is needed because of the
+# backports subdir in the kernel source
 B = "${S}"
 
 COMPATIBLE_MACHINE = "(udooneo|udooqdl)"

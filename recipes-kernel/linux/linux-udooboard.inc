@@ -7,11 +7,14 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
 
 require recipes-kernel/linux/linux-imx.inc
 
+DEPENDS += "lzop-native bc-native"
+
 # Put a local version until we have a true SRCREV to point to
 SCMVERSION ?= "y"
 
-SRCBRANCH ??= "master"
-LOCALVERSION ?= "-${SRCBRANCH}"
+# UDOOboard branch - based on 3.14-1.0.x-udoo from Freescale git
+SRCBRANCH = "3.14-1.0.x-udoo"
+LOCALVERSION = "_1.0.x-udoo"
 
 # Allow override of UDOOBOARD_GITHUB_MIRROR to make use of
 # local repository easier
@@ -24,4 +27,3 @@ SRC_URI = "${UDOOBOARD_GITHUB_MIRROR};branch=${SRCBRANCH} \
            file://0003-avoid-endless-loop.patch \
            file://defconfig \
 "
-
