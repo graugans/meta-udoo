@@ -35,6 +35,8 @@ QT_TOOLS = " \
     qtwebkit \
     qtwebkit-examples-examples \
     qtwebkit-qmlplugins \
+    qtwebengine \
+    qtwebengine-qmlplugin \
     qtgraphicaleffects-qmlplugins \
     qtconnectivity-qmlplugins \
     qtlocation-plugins \
