@@ -71,9 +71,16 @@ IMAGE_INSTALL = "\
     cairo pango fontconfig freetype pulseaudio dbus \
     alsa-lib alsa-tools alsa-state fsl-alsa-plugins \
     i2c-tools \
+    resize-rootfs \
     "
 
 inherit core-image
 
 # for populate_sdk to create a valid toolchain
 inherit populate_sdk_qt5
+
+# Needed by resize-rootfs
+IMAGE_CMD_ext4_append () {
+        # Label the disk rootfs
+        e2label ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext4 rootfs
+}
