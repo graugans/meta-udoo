@@ -1,0 +1,43 @@
+diff --git a/include/configs/mx6seco_common.h b/include/configs/mx6seco_common.h
+index 465902f..119fafd 100644
+--- a/include/configs/mx6seco_common.h
++++ b/include/configs/mx6seco_common.h
+@@ -88,6 +88,7 @@
+ 
+ #define CONFIG_LOADADDR                0x12000000
+ #define CONFIG_FDT_LOADADDR            0x18000000
++#define CONFIG_BOOTSCRIPT_LOADADDR     0x20000000
+ #define CONFIG_SYS_TEXT_BASE           0x17800000
+ 
+ #define CONFIG_SYS_LOAD_ADDR	       CONFIG_LOADADDR
+@@ -461,6 +462,12 @@
+ 	"videomode=video=mxcfb0:dev=hdmi,1920x1080M@60\0"                                                     \
+ 	"bootargs_base="CONFIG_BOOTARGS_BASE"\0"   
+ 
++#define CONFIG_ENV_BOOTSCRIPT                                                                                                               \
++        "bootscript_device_id="__stringify(CONFIG_BOOT_ID_EXT_SD)"\0"                                                                          \
++        "bootscript_partition="__stringify(CONFIG_SYS_MMC_IMG_LOAD_PART)"\0"                                                                    \
++        "bootscript_loadaddr="__stringify(CONFIG_BOOTSCRIPT_LOADADDR)"\0"                                                                                  \
++        "bootscript_file=bootscript\0"                                                                                                              \
++        "bootscript_load=mmc dev ${bootscript_device_id}; fatload mmc ${bootscript_device_id}:${bootscript_partition} ${bootscript_loadaddr} ${bootscript_file}\0"
+ 
+ #define CONFIG_ENV_KERNEL                                                                                                                   \
+ 	"kernel_device_id="__stringify(CONFIG_SYS_MMC_ENV_DEV)"\0"                                                                          \
+@@ -496,6 +503,9 @@
+ 	"fi;"                                                           \
+ 	"run root_set_dev; "                                            \
+ 	"run root_add_env; "                                            \
++	"if run bootscript_load ; then"					\
++		" source ${bootscript_loadaddr}; " \
++	"fi; "								\
+ 	"run kernel_load; "                                             \
+ 	"run fdt_load; "                                                \
+ 	"bootz ${kernel_loadaddr} - ${fdt_loadaddr}"
+@@ -506,6 +516,7 @@
+ 	CONFIG_ENV_BOOTARG_BASE                 \
+ 	CONFIG_ENV_KERNEL                       \
+ 	CONFIG_ENV_FDT                          \
++	CONFIG_ENV_BOOTSCRIPT			\
+ 	CONFIG_ENV_ROOT                        	\
+ 	"bootcmd=" CONFIG_CMD_SET_BOOT "\0"	
+ 	
