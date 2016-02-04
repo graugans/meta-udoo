@@ -12,3 +12,4 @@ SRC_URI += "file://0002-media_capture_devices_dispatcher.h-Include-QCoreApplicat
             file://0001-chromium-jpeg_codec.cc_Change-false-to-FALSE-and-1-to-TRUE.patch \
 "
 
+INSANE_SKIP_${PN} += "textrel"
