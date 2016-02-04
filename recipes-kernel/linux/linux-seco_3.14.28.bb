@@ -21,3 +21,4 @@ SRC_URI = "git://secogit.seco.com/imx6_release/linux-3-14-28-secoboards-imx6_rel
 "
 SRCREV = "${AUTOREV}"
 
+COMPATIBLE_MACHINE = "sbca62q1gb"
