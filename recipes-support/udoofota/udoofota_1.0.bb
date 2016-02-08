@@ -19,4 +19,6 @@ do_install() {
 	install -m 0755 ${B}/udooserver ${D}${bindir}
 }
 
+RDEPENDS_${PN} += "m4uploader"
+
 COMPATIBLE_MACHINE = "(udooneo)"
