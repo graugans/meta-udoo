@@ -1,0 +1,17 @@
+Index: git/Makefile
+===================================================================
+--- a/Makefile
++++ b/Makefile
+@@ -1,10 +1,10 @@
+ all: udooclient udooserver
+ 
+ udooclient: udooclient.c
+-	gcc udooclient.c -o udooclient
++	${CC} udooclient.c -o udooclient
+ 
+ udooserver: udooserver.c
+-	gcc udooserver.c -o udooserver
++	${CC} udooserver.c -o udooserver
+ 
+ clean:
+ 	rm -rf udooclient udooserver
