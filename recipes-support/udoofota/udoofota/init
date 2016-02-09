@@ -1,0 +1,70 @@
+#!/bin/sh
+#
+#   UDOO Firmware Over The Air Server
+#
+
+# Script variables
+PROG=udooserver
+PID=/var/run/udoofota-server.pid
+RETURN_VAL=0
+
+start()
+{
+
+    echo "[`date -u '+%F %T %Z'`] (sys) Starting" >> /var/log/udoofota-server.log
+    test -x /usr/bin/udooneo-m4uploader ||
+    {
+        stop
+        echo "[`date -u '+%F %T %Z'`] (sys) Error: uploader not found" >> /var/log/udoofota-server.log
+        exit 0
+    }
+
+    echo "Starting $PROG: "
+    start-stop-daemon \
+    --start \
+    --pidfile $PID \
+    --exec /usr/bin/udooserver >> /var/log/udoofota-server.log 2>&1
+    return $?
+}
+
+stop()
+{
+    echo "[`date -u '+%Y-%m-%d %T %Z'`] (sys) Stopping" >> /var/log/udoofota-server.log
+    start-stop-daemon --stop --quiet --pidfile $PID
+    return $?
+}
+
+status() {
+        if [ -s $PID ]; then
+                echo "$PROG is running as pid `cat $PID`:"
+        else
+                echo "$PROG is not running."
+        fi
+}
+
+restart()
+{
+    stop
+    start
+    return $?
+}
+
+case "$1" in
+ start)
+       start
+    ;;
+ stop)
+       stop
+    ;;
+ status)
+       status
+    ;;
+ restart|reload)
+       restart
+    ;;
+ *)
+    /bin/echo "Usage: $0 {start|stop|status|restart|reload}"
+    RETURN_VAL=1
+esac
+
+exit $RETURN_VAL
