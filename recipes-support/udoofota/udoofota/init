@@ -23,7 +23,7 @@ start()
     start-stop-daemon \
     --start \
     --pidfile $PID \
-    --exec /usr/bin/udooserver >> /var/log/udoofota-server.log 2>&1
+    -b --exec /usr/bin/udooserver >> /var/log/udoofota-server.log 2>&1
     return $?
 }
 
