@@ -10,7 +10,8 @@ RETURN_VAL=0
 
 start()
 {
-
+    # create m4 upload folder
+    mkdir -p /var/opt/m4/
     echo "[`date -u '+%F %T %Z'`] (sys) Starting" >> /var/log/udoofota-server.log
     test -x /usr/bin/udooneo-m4uploader ||
     {
