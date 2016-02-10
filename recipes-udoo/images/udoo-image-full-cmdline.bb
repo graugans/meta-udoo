@@ -3,12 +3,17 @@ functionality installed. Tailored for the UDOO boards"
 
 IMAGE_FEATURES += "splash ssh-server-openssh package-management"
 
+UDOO_EXTRA_INSTALL = " \
+    resize-rootfs \
+    screen \
+"
+
 IMAGE_INSTALL = "\
     packagegroup-core-boot \
     packagegroup-core-full-cmdline \
     packagegroup-base \
     ${CORE_IMAGE_EXTRA_INSTALL} \
-    resize-rootfs \
+    ${UDOO_EXTRA_INSTALL} \
     "
 
 inherit core-image
