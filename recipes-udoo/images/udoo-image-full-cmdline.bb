@@ -7,6 +7,8 @@ UDOO_EXTRA_INSTALL = " \
     resize-rootfs \
     screen \
     imx-gpu-viv \
+    imx-gpu-viv-demos \
+    packagegroup-fsl-tools-gpu \
     binutils \
     minicom \
 "
