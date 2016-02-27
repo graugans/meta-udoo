@@ -6,6 +6,9 @@ IMAGE_FEATURES += "splash ssh-server-openssh package-management"
 UDOO_EXTRA_INSTALL = " \
     resize-rootfs \
     screen \
+    imx-gpu-viv \
+    binutils \
+    minicom \
 "
 
 IMAGE_INSTALL = "\
