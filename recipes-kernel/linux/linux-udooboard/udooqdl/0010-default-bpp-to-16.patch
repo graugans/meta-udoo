@@ -1,0 +1,25 @@
+Index: kernel-source/arch/arm/boot/dts/imx6q-udoo-lvds15.dts
+===================================================================
+--- kernel-source.orig/arch/arm/boot/dts/imx6q-udoo-lvds15.dts
++++ kernel-source/arch/arm/boot/dts/imx6q-udoo-lvds15.dts
+@@ -33,7 +33,7 @@
+ 	mxcfb1: fb@0 {
+ 		compatible = "fsl,mxc_sdc_fb";
+ 		disp_dev = "ldb";
+-		default_bpp = <32>;
++		default_bpp = <16>;
+ 		interface_pix_fmt = "RGB24";
+ 		mode_str ="";
+ 		int_clk = <0>;
+@@ -49,9 +49,9 @@
+ 		fsl,data-width = <24>;
+ 		display-timings {
+ 			native-mode = <&timing1>;
+-			timing1: 1366x768 {
++			timing1: 1360x768 {
+ 				clock-frequency = <76000000>;
+-				hactive = <1366>;
++				hactive = <1360>;
+ 				vactive = <768>;
+ 				hback-porch = <220>;
+ 				hfront-porch = <40>;

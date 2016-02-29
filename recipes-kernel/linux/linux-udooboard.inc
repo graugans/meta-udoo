@@ -27,3 +27,5 @@ SRC_URI = "${UDOOBOARD_GITHUB_MIRROR};branch=${SRCBRANCH} \
            file://0003-avoid-endless-loop.patch \
            file://defconfig \
 "
+SRC_URI_append_udooqdl = "file://0010-default-bpp-to-16.patch \
+"
