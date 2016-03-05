@@ -1,11 +1,12 @@
+require recipes-bsp/u-boot/u-boot.inc
+PV = "2016.01"
+COMPATIBLE_MACHINE = "secosbca62"
+
 # Copyright (C) 2015 Seco srl
 # Copyright (C) 2016 Christian Ege
 DESCRIPTION = "U-Boot provided by graugans for A62 boards."
 PROVIDES = "u-boot"
-require recipes-bsp/u-boot/u-boot.inc
 
-PV = "2016.01"
-COMPATIBLE_MACHINE = "secosbca62"
 LICENSE = "GPLv2+"
 LIC_FILES_CHKSUM = "file://Licenses/README;md5=0507cd7da8e7ad6d6701926ec9b84c95"
 
