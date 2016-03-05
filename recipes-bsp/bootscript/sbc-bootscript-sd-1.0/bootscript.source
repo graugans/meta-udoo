@@ -1,6 +1,0 @@
-setenv bootargs console=ttymxc1,115200 video=mxcfb0:dev=hdmi,1920x1080M@60 root=/dev/mmcblk1p2 rootwait rw
-mmc dev ${bootscript_device_id}
-for file_system in fat ext2; do
-    ${file_system}load mmc ${bootscript_device_id}:1 ${kernel_loadaddr} /zImage ; ${file_system}load mmc ${bootscript_device_id}:1 ${fdt_loadaddr} /${fdt_file} && bootz ${kernel_loadaddr} - ${fdt_loadaddr}
-done
-echo Impossible to boot from SD card partition 1
