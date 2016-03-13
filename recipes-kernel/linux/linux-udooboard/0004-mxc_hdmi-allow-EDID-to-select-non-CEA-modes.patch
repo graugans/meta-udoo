@@ -1,0 +1,20 @@
+Index: kernel-source/drivers/video/mxc/mxc_hdmi.c
+===================================================================
+--- kernel-source.orig/drivers/video/mxc/mxc_hdmi.c
++++ kernel-source/drivers/video/mxc/mxc_hdmi.c
+@@ -1813,10 +1813,11 @@ static void mxc_hdmi_edid_rebuild_modeli
+ 		 */
+ 		mode = &hdmi->fbi->monspecs.modedb[i];
+ 
+-		if (mxc_edid_mode_to_vic(mode) != 0) {
+-
+-			dev_dbg(&hdmi->pdev->dev, "Added mode %d:", i);
+-			dev_dbg(&hdmi->pdev->dev,
++		if (!(mode->vmode & FB_VMODE_INTERLACED) &&
++                        mode->xres <= 1920 &&
++                        mode->yres <= 1080 ) {
++			dev_info(&hdmi->pdev->dev, "Added mode %d:", i);
++			dev_info(&hdmi->pdev->dev,
+ 				"xres = %d, yres = %d, freq = %d, vmode = %d, flag = %d\n",
+ 				hdmi->fbi->monspecs.modedb[i].xres,
+ 				hdmi->fbi->monspecs.modedb[i].yres,
