@@ -11,6 +11,7 @@ UDOO_EXTRA_INSTALL = " \
     packagegroup-fsl-tools-gpu \
     binutils \
     minicom \
+    i2c-tools \
 "
 
 IMAGE_INSTALL = "\
