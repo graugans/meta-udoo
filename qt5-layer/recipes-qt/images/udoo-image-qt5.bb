@@ -11,6 +11,14 @@ DESCRIPTION = "A Qt 5.5.1+ image. Tailored for the UDOO boards"
 
 IMAGE_FEATURES += "splash ssh-server-openssh package-management debug-tweaks"
 
+UDOO_TOOLS = " \
+    ${@bb.utils.contains("MACHINE_FEATURES", "usbhost", "packagegroup-base-usbhost", "", d)} \
+    i2c-tools \
+    resize-rootfs \
+    ${@bb.utils.contains('MACHINE_FEATURES', "can", "canutils", "", d)} \
+    minicom \
+"
+
 QT_TOOLS = " \
     qtbase-fonts \
     qtbase-plugins \
@@ -65,14 +73,13 @@ IMAGE_INSTALL = "\
     packagegroup-base \
     ${CORE_IMAGE_EXTRA_INSTALL} \
     ${QT_TOOLS} \
+    ${UDOO_TOOLS} \
     ${GSTREAMER_TOOLS} \
     ${REMOTE_DEBUGGING} \
     ${FSL_TOOLS} \
     cairo pango fontconfig freetype pulseaudio dbus \
     alsa-lib alsa-tools alsa-state fsl-alsa-plugins \
-    i2c-tools \
-    resize-rootfs \
-    "
+"
 
 inherit core-image
 

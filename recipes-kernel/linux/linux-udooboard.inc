@@ -29,3 +29,7 @@ SRC_URI = "${UDOOBOARD_GITHUB_MIRROR};branch=${SRCBRANCH} \
 "
 SRC_URI_append_udooqdl = "file://0010-default-bpp-to-16.patch \
 "
+
+SRC_URI_append_udooneo = " \
+    ${@bb.utils.contains('MACHINE_FEATURES', "can", "file://0001-Enable-FlexCAN-interfaces-for-UDOO-Neo.patch", "", d)} \
+"
