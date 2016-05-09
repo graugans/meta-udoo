@@ -24,4 +24,19 @@ SRC_URI = "git://github.com/udooboard/uboot-imx.git;branch=${SRCBRANCH} \
 
 S = "${WORKDIR}/git"
 
+do_install_append_udooneo() {
+
+    if [ -n "${VIDEO_OUTPUT}" ]; then
+        sed -i 's/^#\(video_output\)=.*$/\1=${VIDEO_OUTPUT}/g' ${D}/boot/${UBOOT_ENV_IMAGE}
+        sed -i 's/^\(video_output\)=.*$/\1=${VIDEO_OUTPUT}/g' ${D}/boot/${UBOOT_ENV_IMAGE}
+    fi
+}
+
+do_deploy_append_udooneo() {
+    if [ -n "${VIDEO_OUTPUT}" ]; then
+        sed -i 's/^#\(video_output\)=.*$/\1=${VIDEO_OUTPUT}/g' ${DEPLOYDIR}/${UBOOT_ENV_IMAGE}
+        sed -i 's/^\(video_output\)=.*$/\1=${VIDEO_OUTPUT}/g' ${DEPLOYDIR}/${UBOOT_ENV_IMAGE}
+    fi
+}
+
 PACKAGE_ARCH = "${MACHINE_ARCH}"
