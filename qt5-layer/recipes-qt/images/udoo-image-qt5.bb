@@ -43,7 +43,6 @@ QT_TOOLS = " \
     qtwebkit \
     qtwebkit-examples-examples \
     qtwebkit-qmlplugins \
-    qtwebengine \
     qtgraphicaleffects-qmlplugins \
     qtconnectivity-qmlplugins \
     qtlocation-plugins \
