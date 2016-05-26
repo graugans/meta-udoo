@@ -50,6 +50,7 @@ QT_TOOLS = " \
     qtlocation-qmlplugins \
     cinematicexperience \
     qt5-env \
+    qtserialbus \
 "
 
 GSTREAMER_TOOLS = " \
