@@ -12,7 +12,7 @@ UDOO_EXTRA_INSTALL = " \
     binutils \
     minicom \
     i2c-tools \
-    ${@bb.utils.contains('MACHINE_FEATURES', "can", "canutils", "", d)} \
+    ${@base_conditional("ENABLE_CAN_BUS", "1", "canutils", "", d)} \
 "
 
 IMAGE_INSTALL = "\

@@ -31,5 +31,6 @@ SRC_URI_append_udooqdl = "file://0010-default-bpp-to-16.patch \
 "
 
 SRC_URI_append_udooneo = " \
-    ${@bb.utils.contains('MACHINE_FEATURES', "can", "file://0001-Enable-FlexCAN-interfaces-for-UDOO-Neo.patch", "", d)} \
+    ${@base_conditional("ENABLE_CAN_BUS", "1", "file://0001-Enable-FlexCAN-interfaces-for-UDOO-Neo.patch", "", d)} \
+    ${@base_conditional("ENABLE_SPI_BUS", "1", "file://0020-udooneo-enable-ecspi2.patch", "", d)} \
 "
