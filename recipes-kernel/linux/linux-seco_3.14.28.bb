@@ -18,6 +18,7 @@ SRC_URI = "git://github.com/UDOOboard/linux_kernel.git;branch="imx_3.14.28_1.0.0
            file://0001-ARM-8158-1-LLVMLinux-use-static-inline-in-ARM-ftrace.patch \
            file://0002-ARM-LLVMLinux-Change-extern-inline-to-static-inline-.patch \
            file://0003-avoid-endless-loop.patch \
+           file://0004-fix-galcore-exports.patch \
            file://defconfig \
 "
 
