@@ -8,8 +8,8 @@ COMPATIBLE_MACHINE = "(udooneo|udooqdl)"
 
 PROVIDES = "u-boot"
 
-SRCBRANCH_udooneo = "2015.04.imx-neo"
-SRCBRANCH_udooqdl = "2015.10.fslc-qdl"
+SRCBRANCH_udooneo = "2015.04.imx"
+SRCBRANCH_udooqdl = "2015.04.imx"
 
 PV_udooqdl = "v${SRCBRANCH}+git${SRCPV}"
 
