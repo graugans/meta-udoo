@@ -1,20 +1,21 @@
-From 8e1179a901adb11b8b25e85fdec2d624e397a6d6 Mon Sep 17 00:00:00 2001
+From d8b13b931afd455e4319a1933574706aaa41658b Mon Sep 17 00:00:00 2001
 From: Christian Ege <k4230r6@gmail.com>
-Date: Tue, 26 Jul 2016 19:36:51 +0200
+Date: Tue, 26 Jul 2016 20:20:27 +0200
 Subject: [PATCH] Removed dts folder from device tree file name
 
-This is due to the fact that the meta-fsl-arm layer does provide an
-SD-card image class which do not put the dtb files in a separate subfolder
+This is due to the fact that the meta-fsl-arm layer does provide a
+SD-card image class which do not put the dtb files in a separate
+sub-folder
 
 Signed-off-by: Christian Ege <k4230r6@gmail.com>
 ---
- board/udoo/a62/mx6qd_a62.c | 7 +++----
- board/udoo/udoo_neo/neo.c  | 7 +++----
- board/udoo/udoo_qd/udoo.c  | 7 +++----
- 3 files changed, 9 insertions(+), 12 deletions(-)
+ board/udoo/a62/mx6qd_a62.c | 9 ++++-----
+ board/udoo/udoo_neo/neo.c  | 9 ++++-----
+ board/udoo/udoo_qd/udoo.c  | 9 ++++-----
+ 3 files changed, 12 insertions(+), 15 deletions(-)
 
 diff --git a/board/udoo/a62/mx6qd_a62.c b/board/udoo/a62/mx6qd_a62.c
-index ca264ab..944705e 100644
+index ca264ab..fadbab4 100644
 --- a/board/udoo/a62/mx6qd_a62.c
 +++ b/board/udoo/a62/mx6qd_a62.c
 @@ -592,18 +592,17 @@ int do_a62init(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
@@ -28,7 +29,8 @@ index ca264ab..944705e 100644
  	if (customdtb) {
  		customdtb = trim(customdtb);
  		if (strcmp(customdtb, "true") == 0 || strcmp(customdtb, "yes") == 0 || strcmp(customdtb, "enabled") == 0) {
- 			dir_part = "dts-overlay";
+-			dir_part = "dts-overlay";
++			char* dir_part = "dts-overlay";
 +			sprintf(fdt_file, "%s/%s%s.dtb", dir_part, modelfdt, video_part);
  		}
  	}
@@ -40,7 +42,7 @@ index ca264ab..944705e 100644
  	setenv("fdt_file", fdt_file);
  	
 diff --git a/board/udoo/udoo_neo/neo.c b/board/udoo/udoo_neo/neo.c
-index 7e46a59..2638640 100644
+index 7e46a59..e929504 100644
 --- a/board/udoo/udoo_neo/neo.c
 +++ b/board/udoo/udoo_neo/neo.c
 @@ -1117,18 +1117,17 @@ int do_udooinit(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
@@ -54,7 +56,8 @@ index 7e46a59..2638640 100644
  	if (customdtb) {
  		customdtb = trim(customdtb);
  		if (strcmp(customdtb, "true") == 0 || strcmp(customdtb, "yes") == 0 || strcmp(customdtb, "enabled") == 0) {
- 			dir_part = "dts-overlay";
+-			dir_part = "dts-overlay";
++			char* dir_part = "dts-overlay";
 +			sprintf(fdt_file, "%s/%s%s%s.dtb", dir_part, modelfdt, video_part, m4_part);
  		}
  	}
@@ -66,7 +69,7 @@ index 7e46a59..2638640 100644
  	setenv("fdt_file", fdt_file);
  	
 diff --git a/board/udoo/udoo_qd/udoo.c b/board/udoo/udoo_qd/udoo.c
-index 1276e26..cccb5ba 100644
+index 1276e26..fd7c836 100644
 --- a/board/udoo/udoo_qd/udoo.c
 +++ b/board/udoo/udoo_qd/udoo.c
 @@ -439,18 +439,17 @@ int do_udooinit(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
@@ -80,7 +83,8 @@ index 1276e26..cccb5ba 100644
  	if (customdtb) {
  		customdtb = trim(customdtb);
  		if (strcmp(customdtb, "true") == 0 || strcmp(customdtb, "yes") == 0 || strcmp(customdtb, "enabled") == 0) {
- 			dir_part = "dts-overlay";
+-			dir_part = "dts-overlay";
++			char* dir_part = "dts-overlay";
 +			sprintf(fdt_file, "%s/%s%s.dtb", dir_part, modelfdt, m4_part);
  		}
  	}
