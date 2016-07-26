@@ -15,7 +15,7 @@ SRCREV = "7271b51aeb519414c0de20de077916dac33085e2"
 
 
 SRC_URI = "git://github.com/udooboard/uboot-imx.git;branch=${SRCBRANCH} \
-           file://0001-Removed-dts-folder-from-device-tree-file-name \
+           file://0001-Removed-dts-folder-from-device-tree-file-name.patch \
            file://uEnv.txt \
 "
 
