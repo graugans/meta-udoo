@@ -85,7 +85,7 @@ index 1276e26..fd7c836 100644
  		if (strcmp(customdtb, "true") == 0 || strcmp(customdtb, "yes") == 0 || strcmp(customdtb, "enabled") == 0) {
 -			dir_part = "dts-overlay";
 +			char* dir_part = "dts-overlay";
-+			sprintf(fdt_file, "%s/%s%s.dtb", dir_part, modelfdt, m4_part);
++			sprintf(fdt_file, "%s/%s%s.dtb", dir_part, modelfdt, video_part);
  		}
  	}
  	
