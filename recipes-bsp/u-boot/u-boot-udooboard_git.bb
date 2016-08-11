@@ -11,7 +11,7 @@ SRCBRANCH = "2015.04.imx"
 
 PV = "v${SRCBRANCH}+git${SRCPV}"
 
-SRCREV = "7271b51aeb519414c0de20de077916dac33085e2"
+SRCREV = "8d413a0aed66ea8e368cfe13bdee9b22371a5f79"
 
 
 SRC_URI = "git://github.com/udooboard/uboot-imx.git;branch=${SRCBRANCH} \
