@@ -13,6 +13,7 @@ LIC_FILES_CHKSUM = "file://Licenses/README;md5=0507cd7da8e7ad6d6701926ec9b84c95"
 SRCBRANCH ?= "seco-a62-v2016.01"
 
 SRC_URI = "git://github.com/graugans/u-boot-seco.git;branch=${SRCBRANCH} \
+           file://0001-Added-preliminary-eMMC-support-for-Seco-A62.patch \
            file://uEnv.txt \
 "
 SRCREV = "654be7a7d04a29fedf1ce9035f59d1257e828fb9"
