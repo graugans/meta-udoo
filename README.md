@@ -55,6 +55,37 @@ Valid options are:
 - lvds15
    Support for the official LVDS15 display Kit
 
+Creating a SD-Card image
+========================
+
+The recommended way to create a SD-Card image is the usage of the ``wic`` tool
+
+```
+wic create udoo-sdcard -e udoo-image-full-cmdline -o /var/tmp/wic/udooneo
+```
+
+The output will look like this:
+
+```
+Checking basic build environment...
+Done.
+
+Creating image(s)...
+
+Info: The new image(s) can be found here:
+  /var/tmp/wic/udooneo/build/udoo-sdcard-201611022045-mmcblk.direct
+
+The following build artifacts were used to create the image(s):
+  ROOTFS_DIR:                   /home/chris/src/udoo-community-bsp/build/tmp/work/udooneo-poky-linux-gnueabi/udoo-image-full-cmdline/1.0-r0/rootfs
+  BOOTIMG_DIR:
+  KERNEL_DIR:                   /home/chris/src/udoo-community-bsp/build/tmp/deploy/images/udooneo
+  NATIVE_SYSROOT:               /home/chris/src/udoo-community-bsp/build/tmp/sysroots/x86_64-linux
+
+
+The image(s) were created using OE kickstart file:
+  /home/chris/src/udoo-community-bsp/sources/meta-udoo/scripts/lib/wic/canned-wks/udoo-sdcard.wks
+```
+
 
 Contributing
 ============
