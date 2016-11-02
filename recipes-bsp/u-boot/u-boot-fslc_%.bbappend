@@ -1,8 +1,10 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
-COMPATIBLE_MACHINE = "(udooqdl)"
+COMPATIBLE_MACHINE = "(udooqdl|udooneo)"
 
 SRC_URI += " \
-    file://0001-Switched-to-UDOO-style-uEnv.txt.patch \
-    file://uEnv.txt \
+            file://0001-UDOO-Quad-Dual-support.patch \
+            file://0002-UDOO-Neo-support.patch \
+            file://0003-Removed-dts-folder-from-device-tree-file-name.patch \
+            file://uEnv.txt \
 "

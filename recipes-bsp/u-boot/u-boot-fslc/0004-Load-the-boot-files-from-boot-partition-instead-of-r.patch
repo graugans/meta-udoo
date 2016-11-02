@@ -1,0 +1,91 @@
+From d12da7e2160e682fa387dc174c3f2192246320de Mon Sep 17 00:00:00 2001
+From: Christian Ege <k4230r6@gmail.com>
+Date: Sun, 30 Oct 2016 05:46:25 +0100
+Subject: [PATCH 2/2] Load the boot files from boot partition instead of rootfs
+
+The meta-fsl-arm layer does provide a SD-card image class which creates a
+VFAT boot partition and copies the kernel and device tree to this partition.
+To comply with this we do not load the kernel and device tree from the root
+file system.
+
+Signed-off-by: Christian Ege <k4230r6@gmail.com>
+---
+ include/configs/udoo_neo.h       | 10 +++++-----
+ include/configs/udoo_quad_dual.h | 10 +++++-----
+ 2 files changed, 10 insertions(+), 10 deletions(-)
+
+diff --git a/include/configs/udoo_neo.h b/include/configs/udoo_neo.h
+index e05fd63..a14d755 100644
+--- a/include/configs/udoo_neo.h
++++ b/include/configs/udoo_neo.h
+@@ -45,7 +45,7 @@
+ #define CONFIG_EXTRA_ENV_SETTINGS \
+ 	CONFIG_MFG_ENV_SETTINGS \
+ 	"script=uEnv.txt\0" \
+-	"image=/boot/zImage\0" \
++	"image=zImage\0" \
+ 	"console=ttymxc0\0" \
+ 	"fdt_high=0xffffffff\0" \
+ 	"initrd_high=0xffffffff\0" \
+@@ -54,7 +54,7 @@
+ 	"boot_fdt=try\0" \
+ 	"ip_dyn=yes\0" \
+ 	"mmcdev=0\0" \
+-	"mmcpart=2\0" \
++	"mmcpart=1\0" \
+ 	"mmcrootfstype=ext4\0" \
+ 	"mmcroot=" CONFIG_MMCROOT " rootwait rw\0" \
+ 	"mmcautodetect=no\0" \
+@@ -62,11 +62,11 @@
+ 		"root=${mmcroot} rootfstype=${mmcrootfstype} ${m4mmcargs} consoleblank=0\0" \
+ 	"m4mmcargs=uart_from_osc clk_ignore_unused cpuidle.off=1\0" \
+ 	"loadbootscript=" \
+-		"fatload mmc ${mmcdev}:1 ${loadaddr} ${script};\0" \
++		"fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${script};\0" \
+ 	"bootscript=echo Running bootscript from mmc ...; " \
+ 		"env import -t ${loadaddr} ${filesize};\0" \
+-	"loadimage=ext2load mmc ${mmcdev}:${mmcpart} ${loadaddr} ${image}\0" \
+-	"loadfdt=ext2load mmc ${mmcdev}:${mmcpart} ${fdt_addr} ${fdt_file}\0" \
++	"loadimage=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${image}\0" \
++	"loadfdt=fatload mmc ${mmcdev}:${mmcpart} ${fdt_addr} ${fdt_file}\0" \
+ 	"mmcboot=echo Booting from mmc ...; " \
+ 		"run mmcargs; " \
+ 		"if test ${boot_fdt} = yes || test ${boot_fdt} = try; then " \
+diff --git a/include/configs/udoo_quad_dual.h b/include/configs/udoo_quad_dual.h
+index 57014b2..50304bc 100644
+--- a/include/configs/udoo_quad_dual.h
++++ b/include/configs/udoo_quad_dual.h
+@@ -78,7 +78,7 @@
+
+ #define CONFIG_EXTRA_ENV_SETTINGS \
+ 	"script=uEnv.txt\0" \
+-	"image=/boot/zImage\0" \
++	"image=zImage\0" \
+ 	"console=ttymxc1\0" \
+ 	"splashpos=m,m\0" \
+ 	"fdt_high=0xffffffff\0" \
+@@ -88,17 +88,17 @@
+ 	"boot_fdt=try\0" \
+ 	"ip_dyn=yes\0" \
+ 	"mmcdev=0\0" \
+-	"mmcpart=2\0" \
++	"mmcpart=1\0" \
+ 	"mmcrootfstype=ext4\0" \
+ 	"mmcroot=" CONFIG_MMCROOT " rootwait rw\0" \
+ 	"mmcargs=setenv bootargs console=${console},${baudrate} ${video} ${memory} " \
+ 		"root=${mmcroot} rootfstype=${mmcrootfstype} ahci_imx.hotplug=1\0" \
+ 	"loadbootscript=" \
+-		"fatload " UBOOT_DEVICE " ${mmcdev}:1 ${loadaddr} ${script};\0" \
++		"fatload " UBOOT_DEVICE " ${mmcdev}:${mmcpart} ${loadaddr} ${script};\0" \
+ 	"bootscript=echo Running bootscript from mmc ...; " \
+ 		"env import -t ${loadaddr} ${filesize};\0" \
+-	"loadimage=ext2load " UBOOT_DEVICE " ${mmcdev}:${mmcpart} ${loadaddr} ${image}\0" \
+-	"loadfdt=ext2load " UBOOT_DEVICE " ${mmcdev}:${mmcpart} ${fdt_addr} ${fdt_file}\0" \
++	"loadimage=fatload " UBOOT_DEVICE " ${mmcdev}:${mmcpart} ${loadaddr} ${image}\0" \
++	"loadfdt=fatload " UBOOT_DEVICE " ${mmcdev}:${mmcpart} ${fdt_addr} ${fdt_file}\0" \
+ 	"mmcboot=echo Booting from mmc ...; " \
+ 		"run mmcargs; " \
+ 		"if test ${boot_fdt} = yes || test ${boot_fdt} = try; then " \
+--
+2.7.4
+
