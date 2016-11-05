@@ -24,13 +24,13 @@ index e2bf13c..369db6b 100644
 -	char* dir_part = "dts";
 +	char fdt_file[100];
  	char* customdtb = getenv("use_custom_dtb");
-+	sprintf(fdt_file, "/boot/%s%s.dtb", modelfdt, video_part);
++	sprintf(fdt_file, "/boot/%s%s%s.dtb", modelfdt, video_part, m4_part);
  	if (customdtb) {
  		customdtb = trim(customdtb);
  		if (strcmp(customdtb, "true") == 0 || strcmp(customdtb, "yes") == 0 || strcmp(customdtb, "enabled") == 0) {
 -			dir_part = "dts-overlay";
 +			char* dir_part = "dts-overlay";
-+			sprintf(fdt_file, "/boot/%s/%s%s.dtb", dir_part, modelfdt, video_part);
++			sprintf(fdt_file, "/boot/%s/%s%s%s.dtb", dir_part, modelfdt, video_part, m4_part);
  		}
  	}
 

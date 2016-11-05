@@ -1720,7 +1720,7 @@ index 0000000..e05fd63
 +/* Linux only */
 +#define CONFIG_EXTRA_ENV_SETTINGS \
 +	CONFIG_MFG_ENV_SETTINGS \
-+	"script=uEnv.txt\0" \
++	"script=/boot/uEnv.txt\0" \
 +	"image=/boot/zImage\0" \
 +	"console=ttymxc0\0" \
 +	"fdt_high=0xffffffff\0" \

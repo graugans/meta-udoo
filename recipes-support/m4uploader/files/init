@@ -1,0 +1,72 @@
+#!/bin/sh
+#
+# UDOO M4 Autostart"
+# Author: UDOO Team <social@udoo.org>"
+#
+FW_LAST=/var/opt/m4/m4last.fw
+UP=/usr/bin/udooneo-m4uploader
+CMDLINE=/proc/cmdline
+M4DTS='/proc/device-tree/reserved-memory/m4@0x84000000/'
+
+start()
+{
+    echo "[`date -u '+%F %T %Z'`] (sys) Starting"
+    test -x $UP ||
+      {
+        stop
+        echo "[`date -u '+%F %T %Z'`] (sys) Error: uploader not found"
+        exit 0
+      }
+    test -f $FW_LAST ||
+      {
+        stop
+        echo "[`date -u '+%F %T %Z'`] (sys) Warning: No last sketch found at $FW_LAST"
+        exit 0
+      }
+    test -d $M4DTS ||
+      {
+        stop
+        echo "[`date -u '+%F %T %Z'`] (sys) Warning: M4 is disabled via device-tree"
+        exit 0
+      }
+  
+    test -n "$( awk '( /uart_from_osc/ && /clk_ignore_unused/ && /cpuidle.off=1/ )' $CMDLINE )" ||
+      {
+        stop
+        echo "[`date -u '+%F %T %Z'`] (sys) Warning: M4 is disabled via cmdline"
+        echo "[`date -u '+%F %T %Z'`] (sys) It have to include either: uart_from_osc clk_ignore_unused cpuidle.off=1"
+        exit 0
+      }
+
+     exec "$UP" "$FW_LAST"
+}
+
+stop()
+{
+    echo "[`date -u '+%F %T %Z'`] (sys) Stopping"
+}
+
+
+restart()
+{
+    stop
+    start
+    return $?
+}
+
+case "$1" in
+ start)
+       start
+    ;;
+ stop)
+       stop
+    ;;
+ restart|reload)
+       restart
+    ;;
+ *)
+    /bin/echo "Usage: $0 {start|stop|restart|reload}"
+    RETURN_VAL=1
+esac
+
+exit $RETURN_VAL
