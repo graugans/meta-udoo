@@ -1,0 +1,18 @@
+# Environment script for the UDOO Neo board
+# save this file with unix-like newlines! (\n, 0x0A)
+
+# Enable or Disable the Cortex M4 CPU
+# m4_enabled=true|false
+# any other value (or if the variable is not specified) will default to "true"
+#m4_enabled=false
+
+# Set the screen connected to the board
+# video_output=hdmi|lvds7|lvds15|disabled
+# any other value (or if the variable is not specified) will default to "hdmi"
+#video_output=hdmi
+
+# Select weather to use custom device tree or not
+# Put the custom device tree file in the folder "dts-overlay" in your boot partition
+# use_custom_dtb=true|false
+# any other value (or if the variable is not specified) will default to "false"
+#use_custom_dtb=true

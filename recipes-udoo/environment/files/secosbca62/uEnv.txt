@@ -1,0 +1,26 @@
+# Environment script for the Seco SBC A62 board
+# save this file with unix-like newlines! (\n, 0x0A)
+
+# Set the screen connected to the board
+# video_output=hdmi|lvds7|lvds15|disabled
+# any other value (or if the variable is not specified) will default to "hdmi"
+#video_output=hdmi
+
+# Set the video output mode for the different screens
+# This is according to the following webpage
+# http://www.udoo.org/docs/Troubleshooting/How_Do_I_Set_Up_My_LVDS_Panel.html
+
+# HDMI
+video=fbmem=24M video=mxcfb0:dev=hdmi,1920x1080M@60,bpp=32
+
+# 15" LVDS Panel
+#video=fbmem=24M video=mxcfb0:dev=ldb,LDB-WXGA,if=RGB24,bpp=32
+
+# 7" LVDS Panel
+#video=fbmem=24M video=mxcfb0:dev=ldb,LDB-WVGA,if=RGB666,bpp=32
+
+# Select weather to use custom device tree or not
+# Put the custom device tree file in the folder "dts-overlay" in your boot partition
+# use_custom_dtb=true|false
+# any other value (or if the variable is not specified) will default to "false"
+#use_custom_dtb=true
