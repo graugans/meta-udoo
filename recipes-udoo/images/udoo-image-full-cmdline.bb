@@ -2,6 +2,8 @@ DESCRIPTION = "A console-only image with more full-featured Linux system \
 functionality installed. Tailored for the UDOO boards"
 
 IMAGE_FEATURES += "splash ssh-server-openssh package-management"
+DEPENDS += "virtual/bootloader"
+
 
 UDOO_EXTRA_INSTALL = " \
     resize-rootfs \

@@ -2,9 +2,9 @@
 # save this file with unix-like newlines! (\n, 0x0A)
 
 # Set the screen connected to the board
-# video_output=hdmi|lvds7|lvds15|disabled
-# any other value (or if the variable is not specified) will default to "hdmi"
-#video_output=hdmi (Not used at the moment!!)
+# video_output=hdmi|lvds7|lvds15
+# if the variable is not specified it will default to "hdmi"
+#video_output=hdmi
 
 # Set the video output mode for the different screens
 # This is according to the following webpage
