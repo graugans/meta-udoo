@@ -3,26 +3,19 @@
 set -e
 
 do_expand_rootfs(){
-    if ! [ -h /dev/disk/by-label/rootfs ]; then
-      echo "/dev/disk/by-label/rootfs does not exist or is not a symlink. Don't know how to expand"
-      return 2
-    fi
+    ROOT_PART=$(cat /proc/cmdline | tr " " "\n" | grep "root=" | cut -f 2 -d '='| cut -f 3 -d '/')
+    ROOT_DEV="/dev/$(dirname $(readlink /sys/class/block/${ROOT_PART}) | grep -o '[^/]*$')"
+    BASE_DEV=${ROOT_DEV//p*}
+    PART_NUM=${ROOT_PART#*p}
 
-    ROOT_PART=$(readlink /dev/disk/by-label/rootfs)
-    PART_NUM=${ROOT_PART#../../mmcblk0p}
-    if [ "$PART_NUM" = "$ROOT_PART" ]; then
-      echo "/dev/disk/by-label/rootfs is not an SD card. Don't know how to expand"
-      return 3
-    fi
-
-    LAST_PART_NUM=$(parted /dev/mmcblk0 -ms unit s p | tail -n 1 | cut -f 1 -d:)
+    LAST_PART_NUM=$(parted ${BASE_DEV} -ms unit s p | tail -n 1 | cut -f 1 -d:)
     if [ "$LAST_PART_NUM" != "$PART_NUM" ]; then
       echo "/dev/disk/by-label/rootfs is not the last partition. Don't know how to expand"
       return 4
     fi
 
     # Get the starting offset of the root partition
-    PART_START=$(parted /dev/mmcblk0 -ms unit s p | grep "^${PART_NUM}" | cut -f 2 -d:)
+    PART_START=$(parted ${BASE_DEV} -ms unit s p | grep "^${PART_NUM}" | cut -f 2 -d:)
     # Remove suffix:
     PART_START=${PART_START%s}
     echo "resizing root partition, starts at offset: $PART_START"
@@ -30,7 +23,7 @@ do_expand_rootfs(){
 
     # Return value will likely be error for fdisk as it fails to reload the
     # partition table because the root fs is mounted
-    fdisk /dev/mmcblk0 <<EOF > /dev/null 2>&1
+    fdisk ${BASE_DEV} <<EOF > /dev/null 2>&1
 p
 d
 $PART_NUM
@@ -48,7 +41,7 @@ EOF
   partprobe
 
   echo "Resizing the partition... "
-  resize2fs /dev/disk/by-label/rootfs   || return $?
+  resize2fs ${ROOT_DEV}p${PART_NUM}   || return $?
 }
 
 case "$1" in

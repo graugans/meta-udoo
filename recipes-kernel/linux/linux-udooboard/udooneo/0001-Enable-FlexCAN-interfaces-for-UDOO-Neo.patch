@@ -2,7 +2,7 @@ Index: kernel-source/arch/arm/boot/dts/imx6sx-udoo-neo-externalpins.dtsi
 ===================================================================
 --- kernel-source.orig/arch/arm/boot/dts/imx6sx-udoo-neo-externalpins.dtsi
 +++ kernel-source/arch/arm/boot/dts/imx6sx-udoo-neo-externalpins.dtsi
-@@ -40,10 +40,6 @@
+@@ -40,10 +40,10 @@
  				MX6SX_PAD_SD4_DATA1__GPIO6_IO_15		0x80000000	// {{external-gpio-38}}
  				MX6SX_PAD_SD4_DATA0__GPIO6_IO_14		0x80000000	// {{external-gpio-39}}
  				
@@ -10,10 +10,14 @@ Index: kernel-source/arch/arm/boot/dts/imx6sx-udoo-neo-externalpins.dtsi
 -				MX6SX_PAD_QSPI1B_DQS__GPIO4_IO_28		0x80000000	// {{external-gpio-41}}
 -				MX6SX_PAD_QSPI1B_SS1_B__GPIO4_IO_31		0x80000000	// {{external-gpio-42}}
 -				MX6SX_PAD_QSPI1A_DQS__GPIO4_IO_20		0x80000000	// {{external-gpio-43}}
++				//MX6SX_PAD_QSPI1A_SS1_B__GPIO4_IO_23	0x80000000	// {{external-gpio-40}}
++				//MX6SX_PAD_QSPI1B_DQS__GPIO4_IO_28		0x80000000	// {{external-gpio-41}}
++				//MX6SX_PAD_QSPI1B_SS1_B__GPIO4_IO_31	0x80000000	// {{external-gpio-42}}
++				//MX6SX_PAD_QSPI1A_DQS__GPIO4_IO_20		0x80000000	// {{external-gpio-43}}
  				MX6SX_PAD_GPIO1_IO07__GPIO1_IO_7		0x80000000	// {{external-gpio-44}}
  				MX6SX_PAD_GPIO1_IO06__GPIO1_IO_6		0x80000000	// {{external-gpio-45}}
  				//MX6SX_PAD_GPIO1_IO05__GPIO1_IO_5		0x80000000	// {{external-gpio-46}}
-@@ -199,13 +195,13 @@
+@@ -205,13 +205,13 @@
  &flexcan1 {
  	pinctrl-names = "default";
  	pinctrl-0 = <&pinctrl_flexcan1>;

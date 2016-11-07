@@ -8,8 +8,8 @@ Index: kernel-source/arch/arm/boot/dts/imx6sx-udoo-neo-externalpins.dtsi
  				MX6SX_PAD_SD4_DATA7__GPIO6_IO_21		0x80000000	// {{external-gpio-19}}
 -				MX6SX_PAD_SD4_CLK__GPIO6_IO_12			0x80000000	// {{external-gpio-20}}
 -				MX6SX_PAD_SD4_CMD__GPIO6_IO_13			0x80000000	// {{external-gpio-21}}
-+				//MX6SX_PAD_SD4_CLK__GPIO6_IO_12			0x80000000	// {{external-gpio-20}}
-+				//MX6SX_PAD_SD4_CMD__GPIO6_IO_13			0x80000000	// {{external-gpio-21}}
++				//MX6SX_PAD_SD4_CLK__GPIO6_IO_12		0x80000000	// {{external-gpio-20}}
++				//MX6SX_PAD_SD4_CMD__GPIO6_IO_13		0x80000000	// {{external-gpio-21}}
  				MX6SX_PAD_SD4_RESET_B__GPIO6_IO_22		0x80000000	// {{external-gpio-22}}
  				MX6SX_PAD_CSI_PIXCLK__GPIO1_IO_24		0x80000000	// {{external-gpio-23}}	
  						
@@ -22,19 +22,14 @@ Index: kernel-source/arch/arm/boot/dts/imx6sx-udoo-neo-externalpins.dtsi
 +				//MX6SX_PAD_SD4_DATA1__GPIO6_IO_15		0x80000000	// {{external-gpio-38}}
 +				//MX6SX_PAD_SD4_DATA0__GPIO6_IO_14		0x80000000	// {{external-gpio-39}}
  				
- 				MX6SX_PAD_GPIO1_IO07__GPIO1_IO_7		0x80000000	// {{external-gpio-44}}
- 				MX6SX_PAD_GPIO1_IO06__GPIO1_IO_6		0x80000000	// {{external-gpio-45}}
-@@ -162,7 +162,12 @@
- 	cs-gpios = <&gpio6 14 0>;
+ 				//MX6SX_PAD_QSPI1A_SS1_B__GPIO4_IO_23	0x80000000	// {{external-gpio-40}}
+ 				//MX6SX_PAD_QSPI1B_DQS__GPIO4_IO_28		0x80000000	// {{external-gpio-41}}
+@@ -166,7 +166,7 @@
+ 	cs-gpios = <&gpio6 14 GPIO_ACTIVE_LOW>;
  	pinctrl-names = "default";
  	pinctrl-0 = <&pinctrl_ecspi2>;
 -	status = "disabled";
 +	status = "okay";
-+        spidev0: spi@0 {
-+                compatible = "spidev";
-+                reg = <0>;
-+                spi-max-frequency = <2000000>;
-+        };
- };
  
- &uart1 {
+ 	spidev0: spi@0 {
+ 		compatible = "spidev";
