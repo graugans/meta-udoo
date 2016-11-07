@@ -1726,7 +1726,7 @@ index 0000000..6ff20ae
 +	#define SATA_INIT		"sata init;"
 +#else
 +	#define UBOOT_DEVICE	"mmc"
-+	#define CONFIG_MMCROOT	"/dev/mmcblk0p2"
++	#define CONFIG_MMCROOT	"/dev/mmcblk0p1"
 +	#define SATA_INIT		""
 +#endif
 +
