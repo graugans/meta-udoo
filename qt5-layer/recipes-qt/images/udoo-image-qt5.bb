@@ -9,6 +9,8 @@
 
 DESCRIPTION = "A Qt 5.5.1+ image. Tailored for the UDOO boards"
 
+DEPENDS += "virtual/bootloader"
+
 IMAGE_FEATURES += "splash ssh-server-openssh package-management debug-tweaks"
 
 UDOO_TOOLS = " \
@@ -86,8 +88,3 @@ inherit core-image
 # for populate_sdk to create a valid toolchain
 inherit populate_sdk_qt5
 
-# Needed by resize-rootfs
-IMAGE_CMD_ext4_append () {
-        # Label the disk rootfs
-        e2label ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext4 rootfs
-}
