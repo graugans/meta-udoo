@@ -1110,7 +1110,7 @@ index 0000000..312ab1a
 +#define CONFIG_SYS_MEMTEST_END		(CONFIG_SYS_MEMTEST_START + 500 * SZ_1M)
 +
 +/* MMC Configuration */
-+#define CONFIG_MMCROOT	"/dev/mmcblk0p2"
++#define CONFIG_MMCROOT	"/dev/mmcblk1p1"
 +#define CONFIG_SYS_FSL_ESDHC_ADDR	0
 +
 +#define CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG
