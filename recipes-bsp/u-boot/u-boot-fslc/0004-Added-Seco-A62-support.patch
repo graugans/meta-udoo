@@ -1118,7 +1118,7 @@ index 0000000..312ab1a
 +#define UBOOT_DEVICE	"mmc"
 +
 +#define CONFIG_EXTRA_ENV_SETTINGS \
-+	"script=uEnv.txt\0" \
++	"script=/boot/uEnv.txt\0" \
 +	"image=/boot/zImage\0" \
 +	"console=ttymxc1\0" \
 +	"splashpos=m,m\0" \
