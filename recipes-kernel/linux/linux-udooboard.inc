@@ -26,6 +26,7 @@ SRC_URI = "${UDOOBOARD_GITHUB_MIRROR};branch=${SRCBRANCH} \
            file://0002-ARM-LLVMLinux-Change-extern-inline-to-static-inline-.patch \
            file://0003-avoid-endless-loop.patch \
            file://0005-add-support-for-gcc6.patch \
+           file://0006-Fixed-Ethernet-on-Seco-SBC-A62.patch \
            file://defconfig \
 "
 SRC_URI_append_udooqdl = "file://0010-default-bpp-to-16.patch \
