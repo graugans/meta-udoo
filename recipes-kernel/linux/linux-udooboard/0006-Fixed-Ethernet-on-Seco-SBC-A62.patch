@@ -1,0 +1,92 @@
+From de87ddcb33ef8acdecc18c35edd7089c02b2d706 Mon Sep 17 00:00:00 2001
+From: root <k4230r6@gmail.com>
+Date: Tue, 15 Nov 2016 16:45:11 +0100
+Subject: [PATCH] Fixed Ethernet on Seco SBC A62
+
+This reverts back the device tree to previous working state
+
+Signed-off-by: root <k4230r6@gmail.com>
+---
+ arch/arm/boot/dts/imx6qdl-seco_A62.dtsi | 53 ++++++++++++++-------------------
+ 1 file changed, 23 insertions(+), 30 deletions(-)
+
+diff --git a/arch/arm/boot/dts/imx6qdl-seco_A62.dtsi b/arch/arm/boot/dts/imx6qdl-seco_A62.dtsi
+index 3c913cc..d5c5b7f 100644
+--- a/arch/arm/boot/dts/imx6qdl-seco_A62.dtsi
++++ b/arch/arm/boot/dts/imx6qdl-seco_A62.dtsi
+@@ -332,35 +332,29 @@
+  */
+ 		pinctrl_enet: enetgrp {
+ 			fsl,pins = <
+-				MX6QDL_PAD_ENET_MDIO__ENET_MDIO		0x1b0b0
+-				MX6QDL_PAD_ENET_MDC__ENET_MDC		0x1b0b0
+-				MX6QDL_PAD_RGMII_RD0__RGMII_RD0		0x1b0b0
+-				MX6QDL_PAD_RGMII_RD1__RGMII_RD1		0x1b0b0
+-				MX6QDL_PAD_RGMII_RD2__RGMII_RD2		0x1b0b0
+-				MX6QDL_PAD_RGMII_RD3__RGMII_RD3		0x1b0b0
+-				MX6QDL_PAD_RGMII_TD0__RGMII_TD0		0x1b0b0
+-				MX6QDL_PAD_RGMII_TD1__RGMII_TD1		0x1b0b0
+-				MX6QDL_PAD_RGMII_TD2__RGMII_TD2		0x1b0b0
+-				MX6QDL_PAD_RGMII_TD3__RGMII_TD3		0x1b0b0
+-				MX6QDL_PAD_RGMII_TX_CTL__RGMII_TX_CTL	0x1b0b0
+-				MX6QDL_PAD_RGMII_RXC__RGMII_RXC		0x1b0b0
+-				MX6QDL_PAD_RGMII_TXC__RGMII_TXC		0x1b0b0
+-				MX6QDL_PAD_ENET_REF_CLK__ENET_TX_CLK	0x1b0b0
+-				MX6QDL_PAD_EIM_D23__GPIO3_IO23          0x80000000
++				MX6QDL_PAD_ENET_MDIO__ENET_MDIO              0x1b0b0
++				MX6QDL_PAD_ENET_MDC__ENET_MDC                0x1b0b0
++				MX6QDL_PAD_RGMII_RD0__RGMII_RD0              0x1b0b0
++				MX6QDL_PAD_RGMII_RD1__RGMII_RD1              0x1b0b0
++				MX6QDL_PAD_RGMII_RD2__RGMII_RD2              0x1b0b0
++				MX6QDL_PAD_RGMII_RD3__RGMII_RD3              0x1b0b0
++				MX6QDL_PAD_RGMII_RX_CTL__RGMII_RX_CTL        0x1b0b0
++				MX6QDL_PAD_RGMII_TD0__RGMII_TD0              0x1b0b0
++				MX6QDL_PAD_RGMII_TD1__RGMII_TD1              0x1b0b0
++				MX6QDL_PAD_RGMII_TD2__RGMII_TD2              0x1b0b0
++				MX6QDL_PAD_RGMII_TD3__RGMII_TD3              0x1b0b0
++				MX6QDL_PAD_RGMII_TX_CTL__RGMII_TX_CTL        0x1b0b0
++				MX6QDL_PAD_RGMII_RXC__RGMII_RXC              0x1b0b0
++				MX6QDL_PAD_RGMII_TXC__RGMII_TXC	             0x1b0b0
++				MX6QDL_PAD_ENET_REF_CLK__ENET_TX_CLK         0x1b0b0
++
++				/*  Phy Interrupt  */
++				MX6QDL_PAD_ENET_TX_EN__GPIO1_IO28            0x1f071
++				/*  ENET RESET */
++				MX6QDL_PAD_EIM_D23__GPIO3_IO23               0x1f071
+ 			>;
+ 		};
+ 
+-		phy_running: phy_runningrp {
+-			fsl,pins = <
+-				MX6QDL_PAD_RGMII_RX_CTL__RGMII_RX_CTL	0x1b0b0
+-			>;
+-		};
+-      
+-		phy_reset: phy_resetgrp {
+-			fsl,pins = <
+-				MX6QDL_PAD_RGMII_RX_CTL__GPIO6_IO24	0x80000000
+-			>;
+-		};
+ /*  __________________________________________________________________________
+  * |__________________________________ USB ___________________________________|
+  */
+@@ -584,13 +578,12 @@
+  */
+ &fec {
+ 	status = "okay";
+-	pinctrl-names = "default", "phy-running", "phy-reset"; 
++	pinctrl-names = "default";
+ 	pinctrl-0 = <&pinctrl_enet>;
+-	pinctrl-1 = <&phy_running>;
+-	pinctrl-2 = <&phy_reset>;
+ 	phy-mode = "rgmii";
+ 	phy-supply = <&reg_fec_3v3>;
+-	phy-gpios = <&gpio6 24 0 &gpio3 23 0>;
++	phy-reset-gpios = <&gpio3 23 0>;
++	phy-reset-duration = <10>;
+ 	fsl,magic-packet;
+ };
+ /*  __________________________________________________________________________
+-- 
+2.1.4
+
