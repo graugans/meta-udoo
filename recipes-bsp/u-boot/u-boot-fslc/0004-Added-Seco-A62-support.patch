@@ -1,7 +1,7 @@
-From 399010dd48f804c70da771d76b8e282d90d06acc Mon Sep 17 00:00:00 2001
+From 744d0f36fdfaf6ea59ad2d52267e470824272283 Mon Sep 17 00:00:00 2001
 From: Christian Ege <k4230r6@gmail.com>
 Date: Fri, 18 Nov 2016 06:10:48 +0100
-Subject: [PATCH] Added Seco A62 support
+Subject: [PATCH 4/4] Added Seco A62 support
 
 This adds support for the industrial UDOO variant without Arduino
 
@@ -35,10 +35,10 @@ Signed-off-by: Christian Ege <k4230r6@gmail.com>
  create mode 100644 include/configs/udoo_a62.h
 
 diff --git a/arch/arm/cpu/armv7/mx6/Kconfig b/arch/arm/cpu/armv7/mx6/Kconfig
-index 07a71b4..bbf4287 100644
+index 2e70239..0db2a71 100644
 --- a/arch/arm/cpu/armv7/mx6/Kconfig
 +++ b/arch/arm/cpu/armv7/mx6/Kconfig
-@@ -186,6 +186,10 @@ config TARGET_UDOO_NEO
+@@ -196,6 +196,10 @@ config TARGET_UDOO_NEO
  	bool "UDOO Neo"
  	select SUPPORT_SPL
  
@@ -49,7 +49,7 @@ index 07a71b4..bbf4287 100644
  config TARGET_WANDBOARD
  	bool "wandboard"
  	select SUPPORT_SPL
-@@ -247,6 +251,7 @@ source "board/tbs/tbs2910/Kconfig"
+@@ -258,6 +262,7 @@ source "board/tbs/tbs2910/Kconfig"
  source "board/tqc/tqma6/Kconfig"
  source "board/udoo/quad_dual/Kconfig"
  source "board/udoo/neo/Kconfig"
@@ -487,17 +487,17 @@ index 0000000..1f2c14c
 +	if (check_emmc_selected()) {
 +	   /* Setup eMMC */
 +	   SETUP_IOMUX_PADS(usdhc4_pads);
-+	   usdhc_cfg[1].sdhc_clk = mxc_get_clock(MXC_ESDHC4_CLK);
-+	   return fsl_esdhc_initialize(bis, &usdhc_cfg[1]);
++	   usdhc_cfg[0].sdhc_clk = mxc_get_clock(MXC_ESDHC4_CLK);
++	   return fsl_esdhc_initialize(bis, &usdhc_cfg[0]);
 +	} else {
 +	   /* Setup uSD */
 +	   SETUP_IOMUX_PADS(usdhc3_pads);
-+	   usdhc_cfg[0].esdhc_base = USDHC3_BASE_ADDR;
-+	   usdhc_cfg[0].sdhc_clk = mxc_get_clock(MXC_ESDHC3_CLK);
++	   usdhc_cfg[1].esdhc_base = USDHC3_BASE_ADDR;
++	   usdhc_cfg[1].sdhc_clk = mxc_get_clock(MXC_ESDHC3_CLK);
 +	   gpio_direction_input(USDHC3_CD_GPIO);
 +	   gpio_direction_output(USDHC3_PWR_GPIO, 1);
-+	   gd->arch.sdhc_clk = usdhc_cfg[0].sdhc_clk;
-+	   return fsl_esdhc_initialize(bis, &usdhc_cfg[0]);
++	   gd->arch.sdhc_clk = usdhc_cfg[1].sdhc_clk;
++	   return fsl_esdhc_initialize(bis, &usdhc_cfg[1]);
 +	}
 +#endif
 +}
@@ -588,7 +588,7 @@ index 0000000..1f2c14c
 +	{ /* Boot from eMMC */
 +		printf("Booting from eMMC!\n");
 +		setenv("mmcdev","1");
-+		setenv("mmcroot","/dev/mmcblk0p1 rootwait rw");
++		setenv("mmcroot","/dev/mmcblk1p1 rootwait rw");
 +	}
 +
 +
@@ -1246,7 +1246,7 @@ index 0000000..e6d6f8a
 +
 +/* MMC Configuration */
 +#define CONFIG_SYS_FSL_USDHC_NUM 2
-+#define CONFIG_MMCROOT	"/dev/mmcblk1p1"
++#define CONFIG_MMCROOT	"/dev/mmcblk0p2"
 +#define CONFIG_SYS_FSL_ESDHC_ADDR	0
 +
 +#define CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG
@@ -1254,7 +1254,7 @@ index 0000000..e6d6f8a
 +#define UBOOT_DEVICE	"mmc"
 +
 +#define CONFIG_EXTRA_ENV_SETTINGS \
-+	"script=/boot/uEnv.txt\0" \
++	"script=uEnv.txt\0" \
 +	"image=/boot/zImage\0" \
 +	"console=ttymxc1\0" \
 +	"splashpos=m,m\0" \

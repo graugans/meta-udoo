@@ -1,7 +1,7 @@
-From 8145fd0ea8cc041c9e9435ce8e71adf93cc02a70 Mon Sep 17 00:00:00 2001
+From 9be3eba78273d7ee71db728a594d52e074cac76f Mon Sep 17 00:00:00 2001
 From: Francesco Montefoschi <francesco.monte@gmail.com>
 Date: Thu, 6 Oct 2016 11:40:05 +0200
-Subject: [PATCH 2/2] UDOO Neo support
+Subject: [PATCH 2/4] UDOO Neo support
 
 Signed-off-by: Francesco Montefoschi <francesco.monte@gmail.com>
 Signed-off-by: Christian Ege <k4230r6@gmail.com>
@@ -37,13 +37,13 @@ Signed-off-by: Christian Ege <k4230r6@gmail.com>
  create mode 100644 include/configs/udoo_neo.h
 
 diff --git a/arch/arm/cpu/armv7/mx6/Kconfig b/arch/arm/cpu/armv7/mx6/Kconfig
-index 4f7a016..07a71b4 100644
+index c7581dd..2e70239 100644
 --- a/arch/arm/cpu/armv7/mx6/Kconfig
 +++ b/arch/arm/cpu/armv7/mx6/Kconfig
-@@ -182,6 +182,10 @@ config TARGET_UDOO_QUAD_DUAL
+@@ -192,6 +192,10 @@ config TARGET_UDOO_QUAD_DUAL
  	bool "UDOO Quad/Dual"
  	select SUPPORT_SPL
-
+ 
 +config TARGET_UDOO_NEO
 +	bool "UDOO Neo"
 +	select SUPPORT_SPL
@@ -51,14 +51,14 @@ index 4f7a016..07a71b4 100644
  config TARGET_WANDBOARD
  	bool "wandboard"
  	select SUPPORT_SPL
-@@ -242,6 +246,7 @@ source "board/technexion/pico-imx6ul/Kconfig"
+@@ -253,6 +257,7 @@ source "board/technexion/pico-imx6ul/Kconfig"
  source "board/tbs/tbs2910/Kconfig"
  source "board/tqc/tqma6/Kconfig"
  source "board/udoo/quad_dual/Kconfig"
 +source "board/udoo/neo/Kconfig"
  source "board/wandboard/Kconfig"
  source "board/warp/Kconfig"
-
+ 
 diff --git a/board/udoo/common/Makefile b/board/udoo/common/Makefile
 new file mode 100644
 index 0000000..0729cb8
@@ -173,7 +173,7 @@ index 0000000..ad49d67
 +obj-$(CONFIG_SPL_BUILD)  += spl.o
 diff --git a/board/udoo/neo/detectboard.c b/board/udoo/neo/detectboard.c
 new file mode 100644
-index 0000000..48099dc
+index 0000000..b3a7294
 --- /dev/null
 +++ b/board/udoo/neo/detectboard.c
 @@ -0,0 +1,62 @@
@@ -262,7 +262,7 @@ index 0000000..3cfa0c4
 +int detect_board(void);
 diff --git a/board/udoo/neo/neo.c b/board/udoo/neo/neo.c
 new file mode 100644
-index 0000000..e2bf13c
+index 0000000..5721d2a
 --- /dev/null
 +++ b/board/udoo/neo/neo.c
 @@ -0,0 +1,1118 @@
@@ -1386,7 +1386,7 @@ index 0000000..e2bf13c
 +);
 diff --git a/board/udoo/neo/spl.c b/board/udoo/neo/spl.c
 new file mode 100644
-index 0000000..6d22b46
+index 0000000..e0e1b1c
 --- /dev/null
 +++ b/board/udoo/neo/spl.c
 @@ -0,0 +1,175 @@
@@ -1572,26 +1572,26 @@ index 1d6d9f8..18f5bf9 100644
 @@ -4,4 +4,5 @@
  # SPDX-License-Identifier:	GPL-2.0+
  #
-
+ 
 -obj-y  := udoo.o udoo_spl.o
 +obj-y  := udoo.o
 +obj-$(CONFIG_SPL_BUILD)  += udoo_spl.o
 diff --git a/board/udoo/quad_dual/udoo.c b/board/udoo/quad_dual/udoo.c
-index c9117ab..8abc553 100644
+index 8773985..84c744f 100644
 --- a/board/udoo/quad_dual/udoo.c
 +++ b/board/udoo/quad_dual/udoo.c
-@@ -26,6 +26,7 @@
+@@ -24,6 +24,7 @@
  #include <micrel.h>
  #include <miiphy.h>
  #include <netdev.h>
 +#include "../common/trim.h"
-
+ 
  DECLARE_GLOBAL_DATA_PTR;
-
-@@ -336,31 +337,6 @@ int checkboard(void)
+ 
+@@ -282,31 +283,6 @@ int checkboard(void)
  	return 0;
  }
-
+ 
 -
 -int isspace(char c)
 -{
@@ -1620,10 +1620,10 @@ index c9117ab..8abc553 100644
  /**
   * After loading uEnv.txt, we autodetect which fdt file we need to load.
   * uEnv.txt can contain:
-@@ -393,6 +393,15 @@ int do_udooinit(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
+@@ -339,6 +315,15 @@ int do_udooinit(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
  		}
  	}
-
+ 
 +	char* actual_fdt = getenv("fdt_file");
 +	if (actual_fdt) {
 +		actual_fdt = trim(actual_fdt);
@@ -1670,7 +1670,7 @@ index 0000000..f12ee9b
 +CONFIG_OF_LIBFDT=y
 diff --git a/include/configs/udoo_neo.h b/include/configs/udoo_neo.h
 new file mode 100644
-index 0000000..e05fd63
+index 0000000..f64cac8
 --- /dev/null
 +++ b/include/configs/udoo_neo.h
 @@ -0,0 +1,215 @@
@@ -1890,10 +1890,10 @@ index 0000000..e05fd63
 +
 +#endif				/* __CONFIG_H */
 diff --git a/include/configs/udoo_quad_dual.h b/include/configs/udoo_quad_dual.h
-index 6ff20ae..57014b2 100644
+index d9deef5..c532639 100644
 --- a/include/configs/udoo_quad_dual.h
 +++ b/include/configs/udoo_quad_dual.h
-@@ -83,7 +83,7 @@
+@@ -81,7 +81,7 @@
  	"splashpos=m,m\0" \
  	"fdt_high=0xffffffff\0" \
  	"initrd_high=0xffffffff\0" \
@@ -1902,6 +1902,6 @@ index 6ff20ae..57014b2 100644
  	"fdt_addr=0x18000000\0" \
  	"boot_fdt=try\0" \
  	"ip_dyn=yes\0" \
---
+-- 
 2.7.4
 
