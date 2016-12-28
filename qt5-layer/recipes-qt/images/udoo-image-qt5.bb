@@ -9,8 +9,6 @@
 
 DESCRIPTION = "A Qt 5.5.1+ image. Tailored for the UDOO boards"
 
-DEPENDS += "virtual/bootloader"
-
 IMAGE_FEATURES += "splash ssh-server-openssh package-management debug-tweaks"
 
 UDOO_TOOLS = " \
