@@ -1,0 +1,26 @@
+Index: udoo/Makefile
+===================================================================
+--- udoo.orig/Makefile
++++ udoo/Makefile
+@@ -143,7 +143,7 @@ ARMOBJCOPY=$(ARM)objcopy
+ #
+ # CXX Flags
+ #
+-COMMON_CXXFLAGS+=-Wall -Werror -MT $@ -MD -MP -MF $(@:%.o=%.d) -DVERSION=\"$(VERSION)\" -g -O2
++COMMON_CXXFLAGS+=-Wall -std=c++98 -Werror -MT $@ -MD -MP -MF $(@:%.o=%.d) -DVERSION=\"$(VERSION)\" -g -O2
+ WX_CXXFLAGS:=$(shell wx-config --cxxflags --version=$(WXVERSION)) -DWX_PRECOMP -Wno-ctor-dtor-privacy -O2 -fno-strict-aliasing
+ BOSSA_CXXFLAGS=$(COMMON_CXXFLAGS) $(WX_CXXFLAGS) 
+ BOSSAC_CXXFLAGS=$(COMMON_CXXFLAGS)
+@@ -153,9 +153,9 @@ BOSSASH_CXXFLAGS=$(COMMON_CXXFLAGS) -Isr
+ # LD Flags
+ #
+ COMMON_LDFLAGS+=-g
+-BOSSA_LDFLAGS=$(COMMON_LDFLAGS)
+-BOSSAC_LDFLAGS=$(COMMON_LDFLAGS)
+-BOSSASH_LDFLAGS=$(COMMON_LDFLAGS)
++BOSSA_LDFLAGS=$(LDFLAGS) $(COMMON_LDFLAGS)
++BOSSAC_LDFLAGS=$(LDFLAGS) $(COMMON_LDFLAGS)
++BOSSASH_LDFLAGS=$(LDFLAGS) $(COMMON_LDFLAGS)
+ 
+ #
+ # Libs
