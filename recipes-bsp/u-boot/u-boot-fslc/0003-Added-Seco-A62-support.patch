@@ -1,7 +1,7 @@
-From 744d0f36fdfaf6ea59ad2d52267e470824272283 Mon Sep 17 00:00:00 2001
+From 3d7a83320f0b231cb0436f28d36e9fd8c1d7b8b7 Mon Sep 17 00:00:00 2001
 From: Christian Ege <k4230r6@gmail.com>
-Date: Fri, 18 Nov 2016 06:10:48 +0100
-Subject: [PATCH 4/4] Added Seco A62 support
+Date: Fri, 30 Dec 2016 09:51:52 +0100
+Subject: [PATCH 3/3] Added Seco A62 support
 
 This adds support for the industrial UDOO variant without Arduino
 
@@ -17,11 +17,12 @@ Signed-off-by: Christian Ege <k4230r6@gmail.com>
  board/udoo/common/Makefile      |   2 +-
  board/udoo/common/udooinit.c    |  54 +++++
  board/udoo/common/udooinit.h    |  16 ++
- configs/udoo_a62_defconfig      |  24 ++
+ configs/udoo_a62_defconfig      |  37 +++
+ drivers/watchdog/Kconfig        |   3 +
  drivers/watchdog/Makefile       |   1 +
  drivers/watchdog/apx_watchdog.c |  48 ++++
- include/configs/udoo_a62.h      | 212 ++++++++++++++++
- 14 files changed, 1247 insertions(+), 1 deletion(-)
+ include/configs/udoo_a62.h      | 207 ++++++++++++++++
+ 15 files changed, 1258 insertions(+), 1 deletion(-)
  create mode 100644 board/udoo/a62/Kconfig
  create mode 100644 board/udoo/a62/MAINTAINERS
  create mode 100644 board/udoo/a62/Makefile
@@ -111,7 +112,7 @@ index 0000000..751e41c
 +obj-$(CONFIG_SPL_BUILD)  	 += spl.o 
 diff --git a/board/udoo/a62/a62.c b/board/udoo/a62/a62.c
 new file mode 100644
-index 0000000..1f2c14c
+index 0000000..01b7ab6
 --- /dev/null
 +++ b/board/udoo/a62/a62.c
 @@ -0,0 +1,519 @@
@@ -130,7 +131,7 @@ index 0000000..1f2c14c
 +#include <asm/arch/iomux.h>
 +#include <malloc.h>
 +#include <asm/arch/mx6-pins.h>
-+#include <asm/errno.h>
++#include <linux/errno.h>
 +#include <asm/gpio.h>
 +#include <asm/imx-common/iomux-v3.h>
 +#include <asm/imx-common/sata.h>
@@ -655,7 +656,7 @@ index 0000000..dbf0ea9
 +
 diff --git a/board/udoo/a62/spl.c b/board/udoo/a62/spl.c
 new file mode 100644
-index 0000000..47c49c6
+index 0000000..193d893
 --- /dev/null
 +++ b/board/udoo/a62/spl.c
 @@ -0,0 +1,320 @@
@@ -673,7 +674,7 @@ index 0000000..47c49c6
 +#include <asm/arch/imx-regs.h>
 +#include <asm/arch/iomux.h>
 +#include <asm/arch/mx6-pins.h>
-+#include <asm/errno.h>
++#include <linux/errno.h>
 +#include <asm/gpio.h>
 +#include <asm/imx-common/iomux-v3.h>
 +#include <asm/imx-common/video.h>
@@ -1073,20 +1074,31 @@ index 0000000..47c099e
 +#endif
 diff --git a/configs/udoo_a62_defconfig b/configs/udoo_a62_defconfig
 new file mode 100644
-index 0000000..8704369
+index 0000000..1b35fc9
 --- /dev/null
 +++ b/configs/udoo_a62_defconfig
-@@ -0,0 +1,24 @@
+@@ -0,0 +1,37 @@
 +CONFIG_ARM=y
 +CONFIG_ARCH_MX6=y
 +CONFIG_TARGET_UDOO_A62=y
-+CONFIG_SPL=y
++CONFIG_SPL_GPIO_SUPPORT=y
++CONFIG_SPL_LIBCOMMON_SUPPORT=y
++CONFIG_SPL_LIBGENERIC_SUPPORT=y
++CONFIG_SPL_EXT_SUPPORT=y
++CONFIG_SPL_I2C_SUPPORT=y
++CONFIG_SPL_LIBDISK_SUPPORT=y
++CONFIG_SPL_MMC_SUPPORT=y
++CONFIG_SPL_SERIAL_SUPPORT=y
++CONFIG_SPL_WATCHDOG_SUPPORT=y
++CONFIG_SPL_APX_WATCHDOG=y
 +CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=arch/arm/imx-common/spl_sd.cfg,MX6QDL"
 +CONFIG_BOOTDELAY=3
++CONFIG_SPL=y
 +CONFIG_HUSH_PARSER=y
 +CONFIG_CMD_BOOTZ=y
 +# CONFIG_CMD_IMLS is not set
 +CONFIG_CMD_MMC=y
++CONFIG_CMD_I2C=y
 +CONFIG_CMD_GPIO=y
 +CONFIG_CMD_DHCP=y
 +CONFIG_CMD_MII=y
@@ -1101,6 +1113,16 @@ index 0000000..8704369
 +CONFIG_DM_THERMAL=y
 +CONFIG_OF_LIBFDT=y
 +CONFIG_SPI_FLASH=y
++CONFIG_APX_WATCHDOG=y
++CONFIG_MXC_SPI_CSHOLD=y
+diff --git a/drivers/watchdog/Kconfig b/drivers/watchdog/Kconfig
+index e69de29..513920a 100644
+--- a/drivers/watchdog/Kconfig
++++ b/drivers/watchdog/Kconfig
+@@ -0,0 +1,3 @@
++config APX_WATCHDOG
++        bool "Support watchdog APX drivers"
++
 diff --git a/drivers/watchdog/Makefile b/drivers/watchdog/Makefile
 index a007ae8..c36a24d 100644
 --- a/drivers/watchdog/Makefile
@@ -1166,10 +1188,10 @@ index 0000000..909e908
 +
 diff --git a/include/configs/udoo_a62.h b/include/configs/udoo_a62.h
 new file mode 100644
-index 0000000..e6d6f8a
+index 0000000..1270989
 --- /dev/null
 +++ b/include/configs/udoo_a62.h
-@@ -0,0 +1,212 @@
+@@ -0,0 +1,207 @@
 +/*
 + * Copyright (C) 2013 Freescale Semiconductor, Inc
 + * Copyright (C) 2015 Seco
@@ -1185,10 +1207,9 @@ index 0000000..e6d6f8a
 +
 +#include "mx6_common.h"
 +
-+#define CONFIG_SPL_LIBCOMMON_SUPPORT
-+#define CONFIG_SPL_MMC_SUPPORT
 +#define CONFIG_SPL_ENV_SUPPORT
 +#include "imx6_spl.h"
++
 +
 +#define MACH_TYPE_SECOA62	4800
 +#define CONFIG_MACH_TYPE	MACH_TYPE_SECOA62
@@ -1204,7 +1225,6 @@ index 0000000..e6d6f8a
 +
 +
 +/* I2C Configs */
-+#define CONFIG_CMD_I2C
 +#define CONFIG_SYS_I2C
 +#define CONFIG_SYS_I2C_MXC
 +#define CONFIG_SYS_I2C_MXC_I2C2         /* enable I2C bus 2 */
@@ -1227,8 +1247,6 @@ index 0000000..e6d6f8a
 +
 +
 +/* watchdog */
-+#define CONFIG_SPL_WATCHDOG_SUPPORT
-+#define CONFIG_APX_WATCHDOG
 +#define CONFIG_HW_WATCHDOG
 +
 +#define APX_WDT_TRIGGER_BASE      GPIO3_BASE_ADDR
@@ -1357,7 +1375,6 @@ index 0000000..e6d6f8a
 +#define CONFIG_SPI_FLASH_SST
 +#define CONFIG_SPI_FLASH_MTD
 +#define CONFIG_SPI_FLASH_BAR
-+#define CONFIG_MXC_SPI_CSHOLD
 +#define CONFIG_MXC_SPI
 +#define CONFIG_CMD_SF
 +#define CONFIG_SF_DEFAULT_BUS         0

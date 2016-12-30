@@ -1,7 +1,9 @@
-From 9be3eba78273d7ee71db728a594d52e074cac76f Mon Sep 17 00:00:00 2001
-From: Francesco Montefoschi <francesco.monte@gmail.com>
-Date: Thu, 6 Oct 2016 11:40:05 +0200
-Subject: [PATCH 2/4] UDOO Neo support
+From 2bd485d193c77b626f2fb4e2dff32c279bd336f3 Mon Sep 17 00:00:00 2001
+From: Christian Ege <k4230r6@gmail.com>
+Date: Fri, 30 Dec 2016 08:20:10 +0100
+Subject: [PATCH 2/3] Added UDOO Neo support
+
+This is a rebased version of the original patch from Francesco Montefoschi
 
 Signed-off-by: Francesco Montefoschi <francesco.monte@gmail.com>
 Signed-off-by: Christian Ege <k4230r6@gmail.com>
@@ -15,14 +17,14 @@ Signed-off-by: Christian Ege <k4230r6@gmail.com>
  board/udoo/neo/Makefile          |    7 +
  board/udoo/neo/detectboard.c     |   62 +++
  board/udoo/neo/detectboard.h     |   14 +
- board/udoo/neo/neo.c             | 1118 ++++++++++++++++++++++++++++++++++++++
+ board/udoo/neo/neo.c             | 1117 ++++++++++++++++++++++++++++++++++++++
  board/udoo/neo/spl.c             |  175 ++++++
  board/udoo/quad_dual/Makefile    |    3 +-
- board/udoo/quad_dual/udoo.c      |   35 +-
- configs/udoo_neo_defconfig       |   26 +
- include/configs/udoo_neo.h       |  215 ++++++++
+ board/udoo/quad_dual/udoo.c      |   43 +-
+ configs/udoo_neo_defconfig       |   33 ++
+ include/configs/udoo_neo.h       |  213 ++++++++
  include/configs/udoo_quad_dual.h |    2 +-
- 16 files changed, 1704 insertions(+), 27 deletions(-)
+ 16 files changed, 1712 insertions(+), 31 deletions(-)
  create mode 100644 board/udoo/common/Makefile
  create mode 100644 board/udoo/common/trim.c
  create mode 100644 board/udoo/common/trim.h
@@ -262,10 +264,10 @@ index 0000000..3cfa0c4
 +int detect_board(void);
 diff --git a/board/udoo/neo/neo.c b/board/udoo/neo/neo.c
 new file mode 100644
-index 0000000..5721d2a
+index 0000000..c14733c
 --- /dev/null
 +++ b/board/udoo/neo/neo.c
-@@ -0,0 +1,1118 @@
+@@ -0,0 +1,1117 @@
 +/*
 + * Copyright (C) 2014-2015 Freescale Semiconductor, Inc.
 + * Copyright (C) Jasbir Matharu
@@ -1362,17 +1364,16 @@ index 0000000..5721d2a
 +		}
 +	}
 +
-+	char* dir_part = "dts";
++	char fdt_file[100];
 +	char* customdtb = getenv("use_custom_dtb");
++	sprintf(fdt_file, "/boot/%s%s%s.dtb", modelfdt, video_part, m4_part);
 +	if (customdtb) {
 +		customdtb = trim(customdtb);
 +		if (strcmp(customdtb, "true") == 0 || strcmp(customdtb, "yes") == 0 || strcmp(customdtb, "enabled") == 0) {
-+			dir_part = "dts-overlay";
++			char* dir_part = "dts-overlay";
++			sprintf(fdt_file, "/boot/%s/%s%s%s.dtb", dir_part, modelfdt, video_part, m4_part);
 +		}
 +	}
-+
-+	char fdt_file[100];
-+	sprintf(fdt_file, "/boot/%s/%s%s%s.dtb", dir_part, modelfdt, video_part, m4_part);
 +
 +	printf("Device Tree: %s\n", fdt_file);
 +	setenv("fdt_file", fdt_file);
@@ -1577,7 +1578,7 @@ index 1d6d9f8..18f5bf9 100644
 +obj-y  := udoo.o
 +obj-$(CONFIG_SPL_BUILD)  += udoo_spl.o
 diff --git a/board/udoo/quad_dual/udoo.c b/board/udoo/quad_dual/udoo.c
-index 8773985..84c744f 100644
+index 8773985..50a2dc6 100644
 --- a/board/udoo/quad_dual/udoo.c
 +++ b/board/udoo/quad_dual/udoo.c
 @@ -24,6 +24,7 @@
@@ -1620,10 +1621,11 @@ index 8773985..84c744f 100644
  /**
   * After loading uEnv.txt, we autodetect which fdt file we need to load.
   * uEnv.txt can contain:
-@@ -339,6 +315,15 @@ int do_udooinit(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
+@@ -339,17 +315,26 @@ int do_udooinit(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
  		}
  	}
  
+-	char* dir_part = "dts";
 +	char* actual_fdt = getenv("fdt_file");
 +	if (actual_fdt) {
 +		actual_fdt = trim(actual_fdt);
@@ -1633,47 +1635,68 @@ index 8773985..84c744f 100644
 +		}
 +	}
 +
- 	char* dir_part = "dts";
++	char fdt_file[100];
  	char* customdtb = getenv("use_custom_dtb");
++	sprintf(fdt_file, "/boot/%s%s.dtb", modelfdt, video_part);
  	if (customdtb) {
+ 		customdtb = trim(customdtb);
+ 		if (strcmp(customdtb, "true") == 0 || strcmp(customdtb, "yes") == 0 || strcmp(customdtb, "enabled") == 0) {
+-			dir_part = "dts-overlay";
++			char* dir_part = "dts-overlay";
++			sprintf(fdt_file, "/boot/%s/%s%s.dtb", dir_part, modelfdt, video_part);
+ 		}
+ 	}
+ 
+-	char fdt_file[100];
+-	sprintf(fdt_file, "/boot/%s/%s%s.dtb", dir_part, modelfdt, video_part);
+ 
+ 	printf("Device Tree: %s\n", fdt_file);
+ 	setenv("fdt_file", fdt_file);
 diff --git a/configs/udoo_neo_defconfig b/configs/udoo_neo_defconfig
 new file mode 100644
-index 0000000..f12ee9b
+index 0000000..8791906
 --- /dev/null
 +++ b/configs/udoo_neo_defconfig
-@@ -0,0 +1,26 @@
+@@ -0,0 +1,33 @@
 +CONFIG_ARM=y
 +CONFIG_ARCH_MX6=y
 +CONFIG_TARGET_UDOO_NEO=y
-+CONFIG_SPL=y
++CONFIG_SPL_GPIO_SUPPORT=y
++CONFIG_SPL_LIBCOMMON_SUPPORT=y
++CONFIG_SPL_LIBGENERIC_SUPPORT=y
++CONFIG_SPL_EXT_SUPPORT=y
++CONFIG_SPL_I2C_SUPPORT=y
++CONFIG_SPL_LIBDISK_SUPPORT=y
++CONFIG_SPL_MMC_SUPPORT=y
++CONFIG_SPL_SERIAL_SUPPORT=y
++CONFIG_SPL_WATCHDOG_SUPPORT=y
 +CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=arch/arm/imx-common/spl_sd.cfg,MX6SX"
 +CONFIG_BOOTDELAY=3
++CONFIG_SPL=y
 +CONFIG_HUSH_PARSER=y
 +CONFIG_CMD_BOOTZ=y
 +# CONFIG_CMD_IMLS is not set
-+# CONFIG_CMD_FLASH is not set
 +CONFIG_CMD_MMC=y
 +CONFIG_CMD_I2C=y
 +CONFIG_CMD_GPIO=y
-+# CONFIG_CMD_SETEXPR is not set
 +CONFIG_CMD_DHCP=y
 +CONFIG_CMD_MII=y
 +CONFIG_CMD_PING=y
 +CONFIG_CMD_CACHE=y
-+CONFIG_CMD_TIME=y
 +CONFIG_CMD_EXT2=y
 +CONFIG_CMD_EXT4=y
 +CONFIG_CMD_EXT4_WRITE=y
 +CONFIG_CMD_FAT=y
 +CONFIG_CMD_FS_GENERIC=y
-+CONFIG_SPI_FLASH=y
++CONFIG_DM=y
++CONFIG_DM_THERMAL=y
 +CONFIG_OF_LIBFDT=y
 diff --git a/include/configs/udoo_neo.h b/include/configs/udoo_neo.h
 new file mode 100644
-index 0000000..f64cac8
+index 0000000..c454862
 --- /dev/null
 +++ b/include/configs/udoo_neo.h
-@@ -0,0 +1,215 @@
+@@ -0,0 +1,213 @@
 +/*
 + * Copyright 2014-2015 Freescale Semiconductor, Inc.
 + * Copyright Jasbir Matharu
@@ -1690,8 +1713,6 @@ index 0000000..f64cac8
 +#include "mx6_common.h"
 +
 +#ifdef CONFIG_SPL
-+#define CONFIG_SPL_LIBCOMMON_SUPPORT
-+#define CONFIG_SPL_MMC_SUPPORT
 +#define CONFIG_SPL_ENV_SUPPORT
 +#include "imx6_spl.h"
 +#endif
