@@ -13,7 +13,7 @@ INITSCRIPT_PARAMS = "defaults 30"
 
 SRCREV = "bb638a148fa768e462ae058f64521d6a807fc44f"
 SRC_URI = "git://github.com/UDOOboard/udoofota.git \
-           file://0001-Allow-gcc-overwrite.patch \
+           file://0001-Add-support-for-GCC-overwrite-and-LDFLAGS.patch \
            file://init \
 "
 

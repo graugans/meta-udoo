@@ -1,0 +1,30 @@
+From f13bf6a84c2efd00b326b5d56ad1c61fea0ac82c Mon Sep 17 00:00:00 2001
+From: Christian Ege <k4230r6@gmail.com>
+Date: Fri, 30 Dec 2016 11:07:59 +0100
+Subject: [PATCH] Add support for GCC overwrite and LDFLAGS
+
+Signed-off-by: Christian Ege <k4230r6@gmail.com>
+---
+ Makefile | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 7a48210..904be1a 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,10 +1,10 @@
+ all: udooclient udooserver
+ 
+ udooclient: udooclient.c
+-	gcc udooclient.c -o udooclient
++	${CC} ${LDFLAGS} udooclient.c -o udooclient
+ 
+ udooserver: udooserver.c
+-	gcc udooserver.c -o udooserver
++	${CC} ${LDFLAGS} udooserver.c -o udooserver
+ 
+ clean:
+ 	rm -rf udooclient udooserver
+-- 
+2.1.4
+
