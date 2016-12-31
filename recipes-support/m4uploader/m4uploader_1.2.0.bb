@@ -8,7 +8,7 @@ inherit autotools update-rc.d
 INITSCRIPT_NAME = "m4uploader"
 INITSCRIPT_PARAMS = "defaults 20"
 
-SRCREV = "88e455c8afc9806411682a5f95960a75013d642c"
+SRCREV = "9b2fea4189d48ee34c50842b992be59a29ac0fa0"
 SRC_URI = "git://github.com/UDOOboard/udooneo-m4uploader.git \
            file://init \
            file://m4last.fw \

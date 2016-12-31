@@ -1,0 +1,13 @@
+Index: git/udooserver.c
+===================================================================
+--- git.orig/udooserver.c
++++ git/udooserver.c
+@@ -32,7 +32,7 @@
+ #else //ANDROID
+ #define LogDebug printf
+ #define LogError perror
+-#define M4_FIRMWARE_RECEIVED_FILE       "M4_file.fw"
++#define M4_FIRMWARE_RECEIVED_FILE       "/var/opt/m4/m4last.fw"
+ #endif //ANDROID
+ 
+ #define M4_UPLOADER                     "udooneo-m4uploader"
