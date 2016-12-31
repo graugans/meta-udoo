@@ -1,0 +1,26 @@
+From eab890b49209ebced2e2d05f757d9d3514dae1ff Mon Sep 17 00:00:00 2001
+From: Christian Ege <k4230r6@gmail.com>
+Date: Sat, 31 Dec 2016 07:20:48 +0100
+Subject: [PATCH 2/2] Set the PATH for the M4 binary
+
+Signed-off-by: Christian Ege <k4230r6@gmail.com>
+---
+ udooserver.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/udooserver.c b/udooserver.c
+index d845e46..99d31f4 100644
+--- a/udooserver.c
++++ b/udooserver.c
+@@ -32,7 +32,7 @@
+ #else //ANDROID
+ #define LogDebug printf
+ #define LogError perror
+-#define M4_FIRMWARE_RECEIVED_FILE       "M4_file.fw"
++#define M4_FIRMWARE_RECEIVED_FILE       "/var/opt/m4/m4last.fw"
+ #endif //ANDROID
+ 
+ #define M4_UPLOADER                     "udooneo-m4uploader"
+-- 
+2.1.4
+

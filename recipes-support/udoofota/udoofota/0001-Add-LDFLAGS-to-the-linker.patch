@@ -1,0 +1,33 @@
+From 9f3fe19e6bfa540f74c57922b99a0749fee96f20 Mon Sep 17 00:00:00 2001
+From: Christian Ege <k4230r6@gmail.com>
+Date: Sat, 31 Dec 2016 07:19:07 +0100
+Subject: [PATCH 1/2] Add LDFLAGS to the linker
+
+This is needed to fix an QA issue since OPenEmbedded morty branch.
+There is a new check if the binary contains GNU hash.
+
+Signed-off-by: Christian Ege <k4230r6@gmail.com>
+---
+ Makefile | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index cd7c478..dc29b47 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,10 +1,10 @@
+ all: udooclient udooserver
+ 
+ udooclient: udooclient.c
+-	$(CC) -Wall udooclient.c -o udooclient
++	$(CC) $(LDFLAGS) -Wall udooclient.c -o udooclient
+ 
+ udooserver: udooserver.c
+-	$(CC) -Wall udooserver.c -o udooserver
++	$(CC) $(LDFLAGS) -Wall udooserver.c -o udooserver
+ 
+ clean:
+ 	rm -rf udooclient udooserver
+-- 
+2.1.4
+

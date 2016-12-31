@@ -11,9 +11,10 @@ INITSCRIPT_NAME = "udoofota"
 INITSCRIPT_PARAMS = "defaults 30"
 
 
-SRCREV = "bb638a148fa768e462ae058f64521d6a807fc44f"
+SRCREV = "4e672561f070c5099770091016a80d154483d705"
 SRC_URI = "git://github.com/UDOOboard/udoofota.git \
-           file://0001-Add-support-for-GCC-overwrite-and-LDFLAGS.patch \
+           file://0001-Add-LDFLAGS-to-the-linker.patch \
+           file://0002-Set-the-PATH-for-the-M4-binary.patch \
            file://init \
 "
 
