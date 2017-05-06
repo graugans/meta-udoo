@@ -1688,7 +1688,7 @@ index 0000000..d9deef5
 +	#define SATA_INIT		"sata init;"
 +#else
 +	#define UBOOT_DEVICE	"mmc"
-+	#define CONFIG_MMCROOT	"/dev/mmcblk0p2"
++	#define CONFIG_MMCROOT	"/dev/mmcblk0p1"
 +	#define SATA_INIT		""
 +#endif
 +
@@ -1706,7 +1706,7 @@ index 0000000..d9deef5
 +	"boot_fdt=try\0" \
 +	"ip_dyn=yes\0" \
 +	"mmcdev=0\0" \
-+	"mmcpart=2\0" \
++	"mmcpart=1\0" \
 +	"mmcrootfstype=ext4\0" \
 +	"mmcroot=" CONFIG_MMCROOT " rootwait rw\0" \
 +	"mmcargs=setenv bootargs console=${console},${baudrate} ${video} ${memory} " \
