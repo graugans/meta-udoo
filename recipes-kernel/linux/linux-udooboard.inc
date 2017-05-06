@@ -22,14 +22,14 @@ UDOOBOARD_GITHUB_MIRROR ?= "git://github.com/UDOOboard/linux_kernel.git"
 
 # SRC_URI for udoo boards kernel
 SRC_URI = "${UDOOBOARD_GITHUB_MIRROR};branch=${SRCBRANCH} \
-           file://0001-ARM-8158-1-LLVMLinux-use-static-inline-in-ARM-ftrace.patch \
-           file://0002-ARM-LLVMLinux-Change-extern-inline-to-static-inline-.patch \
            file://0003-avoid-endless-loop.patch \
            file://0005-add-support-for-gcc6.patch \
-           file://0006-Fixed-Ethernet-on-Seco-SBC-A62.patch \
            file://defconfig \
 "
 SRC_URI_append_udooqdl = "file://0010-default-bpp-to-16.patch \
+"
+SRC_URI_append_secosbca62 = "\
+    file://0010-seco-kernel-4.1.15.patch \
 "
 
 SRC_URI_append_udooneo = " \
