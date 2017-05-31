@@ -1,0 +1,28 @@
+From e15ba527ce9d4278a3b80d6a89e6bf3434e5a54c Mon Sep 17 00:00:00 2001
+From: Drew Moseley <drew.moseley@mender.io>
+Date: Wed, 31 May 2017 17:50:59 -0400
+Subject: [PATCH 6/6] u-boot-fslc: Set default environment variables for PXE
+ usage
+
+Signed-off-by: Drew Moseley <drew.moseley@mender.io>
+---
+ include/configs/udoo_neo.h | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/include/configs/udoo_neo.h b/include/configs/udoo_neo.h
+index 56f7ccd..bfc434b 100644
+--- a/include/configs/udoo_neo.h
++++ b/include/configs/udoo_neo.h
+@@ -50,6 +50,9 @@
+ 	"fdt_file=autodetect\0" \
+ 	"fdt_addr=0x83000000\0" \
+ 	"boot_fdt=try\0" \
++	"fdt_addr_r=0x83000000\0" \
++	"kernel_addr_r=0x82000000\0" \
++	"pxefile_addr_r=0x00100000\0" \
+ 	"ip_dyn=yes\0" \
+ 	"mmcdev=0\0" \
+ 	"mmcpart=1\0" \
+-- 
+2.7.4
+
