@@ -1,0 +1,28 @@
+From d832bb15bb3dc580ddb07eb90228ec7de0faf823 Mon Sep 17 00:00:00 2001
+From: Drew Moseley <drew.moseley@mender.io>
+Date: Wed, 31 May 2017 11:57:06 -0400
+Subject: [PATCH 5/5] u-boot-neo: Add PXE to UDOO Neo.
+
+Signed-off-by: Drew Moseley <drew.moseley@mender.io>
+---
+ include/configs/udoo_neo.h | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/include/configs/udoo_neo.h b/include/configs/udoo_neo.h
+index c454862..56f7ccd 100644
+--- a/include/configs/udoo_neo.h
++++ b/include/configs/udoo_neo.h
+@@ -125,6 +125,10 @@
+ 
+ #define CONFIG_STACKSIZE		SZ_128K
+ 
++/* Configure PXE */
++#define CONFIG_CMD_PXE
++#define CONFIG_MENU
++
+ /* Physical Memory Map */
+ #define CONFIG_NR_DRAM_BANKS		1
+ #define PHYS_SDRAM			MMDC0_ARB_BASE_ADDR
+-- 
+2.7.4
+
