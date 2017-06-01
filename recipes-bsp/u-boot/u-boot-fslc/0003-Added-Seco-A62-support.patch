@@ -1,11 +1,12 @@
-From 3d7a83320f0b231cb0436f28d36e9fd8c1d7b8b7 Mon Sep 17 00:00:00 2001
+From a1fcfc361ed83f0ac9328d6367fec2f31136403d Mon Sep 17 00:00:00 2001
 From: Christian Ege <k4230r6@gmail.com>
 Date: Fri, 30 Dec 2016 09:51:52 +0100
-Subject: [PATCH 3/3] Added Seco A62 support
+Subject: [PATCH 3/5] Added Seco A62 support
 
 This adds support for the industrial UDOO variant without Arduino
 
 Signed-off-by: Christian Ege <k4230r6@gmail.com>
+Signed-off-by: Drew Moseley <drew.moseley@mender.io>
 ---
  arch/arm/cpu/armv7/mx6/Kconfig  |   5 +
  board/udoo/a62/Kconfig          |  15 ++
@@ -36,12 +37,12 @@ Signed-off-by: Christian Ege <k4230r6@gmail.com>
  create mode 100644 include/configs/udoo_a62.h
 
 diff --git a/arch/arm/cpu/armv7/mx6/Kconfig b/arch/arm/cpu/armv7/mx6/Kconfig
-index 2e70239..0db2a71 100644
+index 4b31e6d..1503b82 100644
 --- a/arch/arm/cpu/armv7/mx6/Kconfig
 +++ b/arch/arm/cpu/armv7/mx6/Kconfig
-@@ -196,6 +196,10 @@ config TARGET_UDOO_NEO
- 	bool "UDOO Neo"
- 	select SUPPORT_SPL
+@@ -311,6 +311,10 @@ config TARGET_SAMTEC_VINING_2000
+ 	select DM
+ 	select DM_THERMAL
  
 +config TARGET_UDOO_A62
 +	bool "Seco (UDOO) A62 "
@@ -49,9 +50,9 @@ index 2e70239..0db2a71 100644
 +
  config TARGET_WANDBOARD
  	bool "wandboard"
- 	select SUPPORT_SPL
-@@ -258,6 +262,7 @@ source "board/tbs/tbs2910/Kconfig"
- source "board/tqc/tqma6/Kconfig"
+ 	select BOARD_LATE_INIT
+@@ -386,6 +390,7 @@ source "board/toradex/apalis_imx6/Kconfig"
+ source "board/toradex/colibri_imx6/Kconfig"
  source "board/udoo/quad_dual/Kconfig"
  source "board/udoo/neo/Kconfig"
 +source "board/udoo/a62/Kconfig"
