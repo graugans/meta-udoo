@@ -87,6 +87,97 @@ The image(s) were created using OE kickstart file:
 ```
 
 
+Configure NFS Boot
+==================
+
+The UDOO boards can be configured to load the kernel, DTB and
+rootfilesystem over the network.  This allows for faster iterations
+since there is no delay for writing new images to SDCards.  There are
+many ways to accomplish this and the actual setup will depend heavily
+on your networking infrastructure.
+
+One mechanism to support this is if your server supports NFS, tftp and
+PXE.  I use a Synology DS916+ and it supports this setup.  First, make
+sure that TFTP, NFS and PXE are enabled and that the MAC address and
+IP address of your target board are configured to allow access to these
+services.  See your server OS documentation for specifics.
+
+After your ```bitbake``` build completes, you need to copy the DTB file,
+kernel image and root filesystem tar archive to your server. You will need
+to select the actual filenames from your build directory based on your configuration.
+
+On your build system:
+
+```
+$ scp ~/build/tmp/deploy/images/udooneo/udoo-image-full-cmdline-udooneo.tar.bz2 nas:/tftpboot/
+$ scp ~/build/tmp/deploy/images/udooneo/zImage-imx6sx-udoo-neo-full.dtb nas:/tftpboot/
+$ scp ~/build/tmp/deploy/images/udooneo/zImage-udooneo.bin nas:/tftpboot/
+```
+
+Next you will need to extract the root filesystem tar archive into a location that
+is exported via NFS.
+
+On your server:
+
+```
+# tar -C /tftpboot/rootfs -xf /tftpboot/udoo-image-full-cmdline-udooneo.tar.bz2
+```
+
+Then you will need to create a PXE configuration file. This file needs to be available
+over TFTP and is named based on the MAC address of your board.  For instance, if your
+boards MAC address is 00:11:22:33:44:55:66 then you will create a file on your server
+named ```/tftpboot/00-11-22-33-44-55-66``` with the following contents:
+
+```
+default menu.c32
+prompt 0
+timeout 300
+ONTIMEOUT local
+
+MENU TITLE PXE Menu
+
+LABEL Yocto
+        MENU LABEL Yocto Build
+        fdt zImage-imx6sx-udoo-neo-full.dtb
+        kernel zImage-udooneo.bin
+        append root=/dev/nfs rw nfsroot=<your-server-ip-here>:/tftpboot/rootfs/ ip=dhcp console=/dev/tty0 console=ttymxc0,115200 rootwait uart_from_osc clk_ignore_unused cpuidle.off=1 consoleblank=0
+```
+
+Finally, to boot your system, interrupt the U-Boot autoboot sequence by
+pressing the space bar on your serial terminal while U-Boot is loading
+and enter the following commands:
+
+```
+In:    serial
+Out:   serial
+Err:   serial
+Net:   FEC0 [PRIME]
+Hit any key to stop autoboot:  0 
+=> setenv autoload no
+=> setenv serverip 192.168.1.32
+=> dhcp
+BOOTP broadcast 1
+DHCP client bound to address 192.168.1.18 (65 ms)
+=> pxe get
+missing environment variable: pxeuuid
+missing environment variable: bootfile
+Retrieving file: pxelinux.cfg/01-00-c0-08-8c-88-dd
+Using FEC0 device
+TFTP from server 192.168.1.32; our IP address is 192.168.1.18
+Filename 'pxelinux.cfg/01-00-c0-08-8c-88-dd'.
+Load address: 0x82000000
+Loading: #
+         435.5 KiB/s
+done
+Bytes transferred = 446 (1be hex)
+Config file found
+=> pxe boot
+PXE Menu
+1:      Yocto Build
+Enter choice: 1
+```
+
+
 Contributing
 ============
 
