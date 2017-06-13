@@ -14,7 +14,7 @@ SCMVERSION ?= "y"
 
 # UDOOboard branch - based on 3.14-1.0.x-udoo from Freescale git
 SRCBRANCH = "3.14-1.0.x-udoo"
-LOCALVERSION = "_1.0.x-udoo"
+LOCALVERSION = "-1.0.x-udoo"
 
 # Allow override of UDOOBOARD_GITHUB_MIRROR to make use of
 # local repository easier
