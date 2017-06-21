@@ -1,0 +1,22 @@
+From c3e3bdb600815a2ab1fe1f603d0fc28e7b9ef2f7 Mon Sep 17 00:00:00 2001
+From: Drew Moseley <drew.moseley@mender.io>
+Date: Wed, 31 May 2017 11:57:06 -0400
+Subject: [PATCH 5/5] u-boot-neo: Add CMD_PXE to udoo_neo_defconfig
+
+Signed-off-by: Drew Moseley <drew.moseley@mender.io>
+---
+ configs/udoo_neo_defconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/configs/udoo_neo_defconfig b/configs/udoo_neo_defconfig
+index 0555779..de673e3 100644
+--- a/configs/udoo_neo_defconfig
++++ b/configs/udoo_neo_defconfig
+@@ -24,3 +24,4 @@ CONFIG_CMD_TIME=y
+ CONFIG_CMD_EXT4_WRITE=y
+ CONFIG_OF_LIBFDT=y
+ CONFIG_OF_LIBFDT_OVERLAY=y
++CONFIG_CMD_PXE=y
+-- 
+2.7.4
+
