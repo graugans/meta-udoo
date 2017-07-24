@@ -102,6 +102,14 @@ sure that TFTP, NFS and PXE are enabled and that the MAC address and
 IP address of your target board are configured to allow access to these
 services.  See your server OS documentation for specifics.
 
+You will need to ensure that you are building the ```.tar.bz2``` image
+as part of your build.  Add the following to your local.conf, noting
+specifically the space after the first quote character:
+
+```
+IMAGE_FSTYPES += " .tar.bz2"
+```
+
 After your ```bitbake``` build completes, you need to copy the DTB file,
 kernel image and root filesystem tar archive to your server. You will need
 to select the actual filenames from your build directory based on your configuration.
