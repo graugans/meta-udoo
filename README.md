@@ -7,11 +7,11 @@ use with OpenEmbedded and/or Yocto Freescale's BSP layers.
 This layer depends on:
 
 URI: git://git.openembedded.org/openembedded-core
-branch: master
+branch: pyro
 revision: HEAD
 
-URI: git://git.yoctoproject.org/meta-fsl-arm
-branch: master
+URI: https://github.com/Freescale/meta-freescale.git
+branch: pyro
 revision: HEAD
 
 Images
@@ -152,7 +152,7 @@ In:    serial
 Out:   serial
 Err:   serial
 Net:   FEC0 [PRIME]
-Hit any key to stop autoboot:  0 
+Hit any key to stop autoboot:  0
 => setenv autoload no
 => setenv serverip 192.168.1.32
 => dhcp
