@@ -7,8 +7,8 @@ SRC_URI = "file://qt5-env.sh"
 
 S = "${WORKDIR}"
 
-HAS_X11 = "${@base_contains('DISTRO_FEATURES', 'x11', 1, 0, d)}"
-HAS_LVDS7 = "${@base_contains('VIDEO_OUTPUT', 'lvds7', 1, 0, d)}"
+HAS_X11 = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 1, 0, d)}"
+HAS_LVDS7 = "${@bb.utils.contains('VIDEO_OUTPUT', 'lvds7', 1, 0, d)}"
 
 do_install() {
     install -d ${D}${sysconfdir}/profile.d
