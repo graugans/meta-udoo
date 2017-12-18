@@ -2,7 +2,7 @@ require recipes-bsp/u-boot/u-boot.inc
 
 DEPENDS += "dtc-native"
 
-# This revision corresponds to the tag "v2016.03"
+# This revision corresponds to the tag "v2017.11"
 # We use the revision in order to avoid having to fetch it from the
 # repo during parse
 SRCREV = "c253573f3e269fd9a24ee6684d87dd91106018a5"
