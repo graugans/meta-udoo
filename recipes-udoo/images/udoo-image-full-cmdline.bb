@@ -6,15 +6,19 @@ IMAGE_FEATURES += "splash ssh-server-openssh package-management"
 UDOO_EXTRA_INSTALL = " \
     resize-rootfs \
     screen \
-    imx-gpu-viv \
-    imx-gpu-viv-demos \
-    packagegroup-fsl-tools-gpu \
     binutils \
     minicom \
     i2c-tools \
     dtc \
     mmc-utils \
+    ${@base_conditional("ENABLE_MAINLINE", "1", "", "${GPU_VIV}", d)} \
     ${@base_conditional("ENABLE_CAN_BUS", "1", "canutils", "", d)} \
+"
+
+GPU_VIV = "\
+    imx-gpu-viv \
+    imx-gpu-viv-demos \
+    packagegroup-fsl-tools-gpu \
 "
 
 IMAGE_INSTALL = "\

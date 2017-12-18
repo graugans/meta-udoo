@@ -1,0 +1,40 @@
+From fef6e780a5c8d56190185c4b1065fec52ab829f8 Mon Sep 17 00:00:00 2001
+From: Steve Arnold <nerdboy@gentoo.org>
+Date: Wed, 8 Nov 2017 10:32:02 -0800
+Subject: [PATCH 2/2] udoo.h: add fallback option to load kernel/dtb without
+ uname_r
+
+Signed-off-by: Steve Arnold <nerdboy@gentoo.org>
+---
+ include/configs/udoo.h | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/include/configs/udoo.h b/include/configs/udoo.h
+index 4b83aff9c7..45f1b456e4 100644
+--- a/include/configs/udoo.h
++++ b/include/configs/udoo.h
+@@ -130,6 +130,21 @@
+ 						"setenv mmcroot PARTUUID=${partuuid} ro;" \
+ 						"echo Using: mmcroot=${mmcroot} ...;" \
+ 						"run uname_boot;" \
++					"else " \
++						"echo No, running simple mmcboot ...;" \
++						"echo Using: mmcroot=${mmcroot} ...;" \
++						"setenv bootdir /boot; " \
++						"setenv bootfile zImage; " \
++						"setenv fdtdir /boot; " \
++						"if test -e ${devtype} ${bootpart} ${bootdir}/${bootfile}; then " \
++							"echo loading ${bootdir}/${bootfile} ...; "\
++							"run loadimage;" \
++							"run loadfdt;" \
++							"run mmcargs;" \
++							"echo debug: [${bootargs}] ... ;" \
++							"echo debug: [bootz ${loadaddr} - ${fdt_addr}] ... ;" \
++							"bootz ${loadaddr} - ${fdt_addr}; " \
++						"fi;" \
+ 					"fi;" \
+ 				"fi;" \
+ 			"done;" \
+-- 
+2.15.0
+

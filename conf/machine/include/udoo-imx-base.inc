@@ -1,6 +1,10 @@
 # Vivante stuff
 MACHINE_USES_VIVANTE_KERNEL_DRIVER_MODULE ?= "1"
 
+# paramater for filtering vendor-specific packages
+# set to 1 in local.conf to use mainline kernel/u-boot
+ENABLE_MAINLINE ?= "0"
+
 # Das u-boot settings
 UBOOT_MAKE_TARGET = ""
 UBOOT_SUFFIX = "img"
